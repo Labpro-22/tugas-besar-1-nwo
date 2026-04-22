@@ -1,4 +1,5 @@
 #pragma once
+
 #include "models/Tile.hpp"
 #include "utils/utils.hpp"
 class RailroadTile : public PropertyTile {

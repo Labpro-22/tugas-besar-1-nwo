@@ -11,7 +11,6 @@
 #include "models/GoToJailTile.hpp"
 #include "models/FestivalTile.hpp"
 #include "models/PropertyTile.hpp"
-#include "models/RailroadTIle.hpp"
 #include "models/FreeParkingTile.hpp"
 
 #include "models/MoveCard.hpp"
@@ -23,6 +22,8 @@
 #include "models/ShieldCard.hpp"
 #include "models/TeleportCard.hpp"
 #include "models/DemolitionCard.hpp"
+#include "models/StreetTile.hpp"
+#include "models/RailroadTile.hpp"
 
 #include "models/SaveManager.hpp"
 #include "models/ConfigReader.hpp"

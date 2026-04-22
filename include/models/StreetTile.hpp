@@ -2,6 +2,7 @@
 
 #include "models/Tile.hpp"
 #include "utils/utils.hpp"
+#include "models/PropertyTile.hpp"
 class StreetTile : public PropertyTile {
 private:
     std::string colorGroup;

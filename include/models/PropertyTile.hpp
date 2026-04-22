@@ -1,12 +1,13 @@
 #pragma once
 
-// #include "models/Tile.hpp"
+#include "models/Tile.hpp"
 // #include "utils/Dice.hpp"
 
 // class Dice;
 class Player;
 class GameManager;
 class Dice;
+// class Tile;
 
 class PropertyTile : public Tile {
 protected:

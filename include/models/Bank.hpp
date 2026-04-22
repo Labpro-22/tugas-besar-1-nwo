@@ -1,10 +1,12 @@
 #pragma once
 
 #include <bits/stdc++.h>
-
+// #include "core/GameManager.hpp"
+// #include "core/GameManager.hpp"
+class GameManager;
 class Bank {
 public:
     Bank();
-    void collect(int amount);
-    void dispense(int amount);
+    void collect(int amount,GameManager& gm);
+    void dispense(int amount,GameManager& gm);
 };

@@ -1,12 +1,17 @@
 #pragma once
 
-// #include <bits/stdc++.h>
-// #include "models/SkillCard.hpp"
+#include <bits/stdc++.h>
+// #include "models/Tile.hpp"
 // #include "models/PropertyTile.hpp"
+#include "utils/HandFullException.hpp"
+#include "utils/InsufficientFundsException.hpp"
+// #include "models/SkillCard.hpp"
+#include "models/PropertyTile.hpp"
 
-class PropertyTile;
+// class PropertyTile;
 class SkillCard;
 class GameManager;
+class Tile;
 
 class Player {
 protected:

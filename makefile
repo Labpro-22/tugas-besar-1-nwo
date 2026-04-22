@@ -3,7 +3,7 @@
 # Compiler settings
 CXX      := g++
 CXXFLAGS := -Wall -Wextra -std=c++17 -I include
-
+LDLIBS   := -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 # Directories
 SRC_DIR     := src
 OBJ_DIR     := build
@@ -32,7 +32,7 @@ directories:
 
 # Link object files to create executable
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDLIBS)
 	@echo "Build successful! Executable is at $(TARGET)"
 
 # Compile source files into object files
