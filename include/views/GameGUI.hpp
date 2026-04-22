@@ -1,6 +1,7 @@
 #pragma once
 
 #include <bits/stdc++.h>
+#include <raylib.h>
 class GameManager;
 class PropertyTile;
 class TilePos;

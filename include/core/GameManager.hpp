@@ -5,6 +5,7 @@
 #include "utils/utils.hpp"
 #include "models/HumansPlayer.hpp"
 #include "models/ComputerPlayer.hpp"
+#include "models/Bank.hpp"
 
 class GameManager {
 private:

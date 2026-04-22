@@ -1,5 +1,5 @@
 #include "models/Bank.hpp"
-
+#include "core/GameManager.hpp"
 using namespace std;
 
 Bank::Bank() {}

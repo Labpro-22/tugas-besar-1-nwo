@@ -1,7 +1,7 @@
 #include "core/GameManager.hpp"
 
-// class HumanPlayer;
-// class ComputerPlayer;
+class HumanPlayer;
+class ComputerPlayer;
 using namespace std;
 GameManager::GameManager(ConfigReader cfg) 
     : config(cfg), board(), bank(), dice(), currentTurnIndex(0), currentTurnCount(1), maxTurn(0), isGameOver(false) {}
