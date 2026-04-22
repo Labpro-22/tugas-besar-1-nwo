@@ -4,6 +4,12 @@
 #include "models/Tile.hpp"
 #include "utils/Dice.hpp"
 #include "models/ConfigReader.hpp"
+#include "models/CardTile.hpp"
+#include "models/FestivalTile.hpp"
+#include "models/JailTile.hpp"
+#include "models/GoTile.hpp"
+#include "models/StreetTile.hpp"
+#include "models/RailroadTile.hpp"
 
 class Board {
 private:

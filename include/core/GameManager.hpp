@@ -3,6 +3,8 @@
 #include <bits/stdc++.h>
 #include "models/models.hpp"
 #include "utils/utils.hpp"
+#include "models/HumansPlayer.hpp"
+#include "models/ComputerPlayer.hpp"
 
 class GameManager {
 private:
@@ -45,4 +47,5 @@ public:
     CardDeck<ChanceCard>& getChanceDeck();
     CardDeck<CommunityChestCard>& getCommunityDeck();
     CardDeck<SkillCard>& getSkillDeck();
+    int getCurrentTurnCount() const;
 };
