@@ -1,4 +1,6 @@
-#include "include/models/TeleportCard.hpp"
+#include "models/TeleportCard.hpp"
+#include "models/Player.hpp"
+#include "core/GameManager.hpp"
 #include <iostream>
 
 TeleportCard::TeleportCard()

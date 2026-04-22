@@ -1,4 +1,6 @@
-#include "include/models/SkillCard.hpp"
+#include "models/SkillCard.hpp"
+#include "models/Player.hpp"
+#include "core/GameManager.hpp"
 #include <iostream>
 
 SkillCard::SkillCard(std::string desc, int val, int dur)

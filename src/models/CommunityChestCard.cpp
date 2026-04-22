@@ -1,4 +1,4 @@
-#include "include/models/CommunityChestCard.hpp"
+#include "models/CommunityChestCard.hpp"
 #include <iostream>
 
 CommunityChestCard::CommunityChestCard(std::string desc, std::string effect, int amt) : Card(desc), effectType(effect), amount(amt){}

@@ -1,4 +1,6 @@
-#include "include/models/LassoCard.hpp"
+#include "models/LassoCard.hpp"
+#include "models/Player.hpp"
+#include "core/GameManager.hpp"
 #include <iostream>
 
 

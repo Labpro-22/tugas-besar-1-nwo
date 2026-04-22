@@ -1,4 +1,6 @@
- #include "include/models/DemolitionCard.hpp"
+ #include "models/DemolitionCard.hpp"
+ #include "models/Player.hpp"
+#include "core/GameManager.hpp"
  #include <iostream>
 
 DemolitionCard::DemolitionCard()

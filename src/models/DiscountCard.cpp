@@ -1,4 +1,6 @@
-#include "include/models/DiscountCard.hpp"
+#include "models/DiscountCard.hpp"
+#include "models/Player.hpp"
+#include "core/GameManager.hpp"
 #include <iostream>
 
 DiscountCard::DiscountCard(int percent)

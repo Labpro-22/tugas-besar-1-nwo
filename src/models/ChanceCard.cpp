@@ -1,4 +1,6 @@
-#include "include/models/ChanceCard.hpp"
+#include "models/ChanceCard.hpp"
+#include "models/Player.hpp"
+#include "core/GameManager.hpp"
 #include <iostream>
 #include <vector>
 #include <algorithm>

@@ -1,4 +1,6 @@
-#include "include/models/ShieldCard.hpp"
+#include "models/ShieldCard.hpp"
+#include "models/Player.hpp"
+#include "core/GameManager.hpp"
 #include <iostream>
 
 ShieldCard::ShieldCard() : SkillCard("ShieldCard: Kebal tagihan/sanksi selama 1 giliran", 0, 1){}

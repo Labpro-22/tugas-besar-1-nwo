@@ -1,4 +1,6 @@
-#include "include/models/MoveCard.hpp"
+#include "models/MoveCard.hpp"
+#include "models/Player.hpp"
+#include "core/GameManager.hpp"
 #include <iostream>
 
 MoveCard::MoveCard(int steps)

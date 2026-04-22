@@ -1,4 +1,4 @@
-#include "include/models/Card.hpp"
+#include "models/Card.hpp"
 #include <iostream>
 
 Card::Card(std::string desc) : description(desc){}
