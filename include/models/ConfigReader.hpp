@@ -13,6 +13,13 @@ private:
     int maxTurn;
     int initialBalance;
 
+    void loadPropertyConfig();
+    void loadRailroadConfig();
+    void loadUtilityConfig();
+    void loadTaxConfig();
+    void loadSpecialConfig();
+    void loadMiscConfig();
+
 public:
     ConfigReader(std::string dir);
     void loadAllConfigs();

@@ -25,4 +25,7 @@ public:
     std::string getColorGroup() const;
     int getBuildingCount() const;
     int getTotalBuildingValue() const;
+
+    int getFestivalMultiplier() const;
+    int getFestivalDuration() const;
 };

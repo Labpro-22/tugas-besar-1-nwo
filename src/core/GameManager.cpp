@@ -43,6 +43,7 @@ void GameManager::initializeGame(int numPlayers, const vector<string>& playerNam
 void GameManager::runGameLoop() {
     if (!isGameOver) {
         checkWinCondition();
+        if (isGameOver) return;
         
         currentTurnIndex = (currentTurnIndex + 1) % players.size();
         players[currentTurnIndex]->setStatus("ACTIVE");
@@ -179,3 +180,19 @@ CardDeck<ChanceCard>& GameManager::getChanceDeck() { return chanceDeck; }
 CardDeck<CommunityChestCard>& GameManager::getCommunityDeck() { return communityDeck; }
 CardDeck<SkillCard>& GameManager::getSkillDeck() { return skillDeck; }
 int GameManager::getCurrentTurnCount() const { return currentTurnCount; }
+int GameManager::getMaxTurn() const { return maxTurn; }
+ 
+// --- Setters untuk SaveManager saat load ---
+void GameManager::setCurrentTurnCount(int t) { currentTurnCount = t; }
+void GameManager::setMaxTurn(int t) { maxTurn = t; }
+void GameManager::addPlayer(Player* p) { players.push_back(p); }
+ 
+void GameManager::setCurrentPlayerByUsername(const std::string& username) {
+    for (int i = 0; i < (int)players.size(); i++) {
+        if (players[i]->getUsername() == username) {
+            currentTurnIndex = i;
+            return;
+        }
+    }
+    currentTurnIndex = 0;
+}

@@ -49,4 +49,18 @@ public:
     CardDeck<CommunityChestCard>& getCommunityDeck();
     CardDeck<SkillCard>& getSkillDeck();
     int getCurrentTurnCount() const;
+    int getMaxTurn() const;
+
+    //untuk savemanager
+    const Board& getBoardConst() const;
+    const Player& getCurrentPlayerConst() const;
+    const std::vector<Player*>& getAllPlayersConst() const;
+    const CardDeck<SkillCard>& getSkillDeckConst() const;
+    const TransactionLogger& getLoggerConst() const;
+
+    //Data-layer
+    void setCurrentTurnCount(int t);
+    void setMaxTurn(int t);
+    void addPlayer(Player* p);
+    void setCurrentPlayerByUsername(const std::string& username);
 };
