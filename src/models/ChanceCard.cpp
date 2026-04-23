@@ -57,7 +57,7 @@ void ChanceCard::execute(Player& player, GameManager& gm){
 
         //Cari index petak penjara
         int jailIndex = gm.getBoard().getTileIndexByCode("PEN");
-        if (jailIndex == -1) jailIndex == 11;
+        if (jailIndex == -1) jailIndex = 11;
 
         player.setPosition(jailIndex);
         player.setStatus("JAILED");

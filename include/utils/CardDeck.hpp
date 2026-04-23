@@ -18,22 +18,8 @@ public:
     void discardCard(T* card);
     void shuffle();
     bool isEmpty() const;
+    const std::vector<T*>& getDeckCards() const { return deck; }
 };
-template <typename T>
-class CardDeck {
-private:
-    std::vector<T*> deck;
-    std::vector<T*> discardPile;
-public:
-    CardDeck();
-    ~CardDeck();
-    void addCard(T* card);
-    T* drawCard();
-    void discardCard(T* card);
-    void shuffle();
-    bool isEmpty() const;
-};
-
 //Implementasi dari kelas CardDeck
 
 template <typename T>
@@ -91,5 +77,6 @@ template <typename T>
 bool CardDeck<T>::isEmpty() const{
     return deck.empty() && discardPile.empty();
 }
+
 
 

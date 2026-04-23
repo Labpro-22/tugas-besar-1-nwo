@@ -36,6 +36,7 @@ public:
     int getTotalWealth() const;
     const std::vector<SkillCard*>& getHand() const;
     const std::vector<PropertyTile*>& getOwnedProperties() const;
+    int getJailTurns() const;
 
     // Setters
     void setPosition(int pos);

@@ -18,6 +18,7 @@ int Player::getTotalWealth() const {
 }
 const vector<SkillCard*>& Player::getHand() const { return hand; }
 const vector<PropertyTile*>& Player::getOwnedProperties() const { return ownedProperties; }
+int Player::getJailTurns() const { return jailTurns; }
 
 void Player::setPosition(int pos) { position = pos; }
 void Player::setStatus(string stat) { status = stat; }

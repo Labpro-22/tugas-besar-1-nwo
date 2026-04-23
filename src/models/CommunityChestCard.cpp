@@ -1,4 +1,6 @@
 #include "models/CommunityChestCard.hpp"
+#include "models/Player.hpp"
+#include "core/GameManager.hpp"
 #include <iostream>
 
 CommunityChestCard::CommunityChestCard(std::string desc, std::string effect, int amt) : Card(desc), effectType(effect), amount(amt){}
@@ -22,7 +24,7 @@ void CommunityChestCard::execute(Player& player, GameManager& gm){
             }
         }
         std::cout << player.getUsername() << " menerima total M" << collected << " sebagai hadiah ulang tahun!\n";
-        gm.getlogger().logAction(0, player.getUsername(), "KARTU", "Dana Umum: Ulang tahun, menerima M" + std::to_string(collected));
+        gm.getLogger().logAction(0, player.getUsername(), "KARTU", "Dana Umum: Ulang tahun, menerima M" + std::to_string(collected));
 
     } else if (effectType == "DOCTOR"){
         std::cout << "Biaya dokter M" << amount << " harus dibayar ke Bank.\n";
@@ -68,7 +70,7 @@ void CommunityChestCard::execute(Player& player, GameManager& gm){
             }
             
             std::cout << player.getUsername() << " membayar total M" << totalPaid <<  " untuk kampanye.\n";
-            gm.getLogger().getAction(0, player.getUsername(), "KARTU", "Dana umum: Nyaleg, bayar M" + std::to_string(totalPaid) + " ke semua pemain");
+            gm.getLogger().logAction(0, player.getUsername(), "KARTU", "Dana umum: Nyaleg, bayar M" + std::to_string(totalPaid) + " ke semua pemain");
         }
     }
 }
