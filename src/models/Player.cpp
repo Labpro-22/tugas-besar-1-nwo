@@ -1,9 +1,12 @@
 #include "models/Player.hpp"
+#include "utils/HandFullException.hpp"
+#include "utils/InsufficientFundsException.hpp"
+#include "models/PropertyTile.hpp"
 
 using namespace std;
 
-Player::Player(string name, int startBalance) : username(name), balance(startBalance), position(0), status("ACTIVE"), jailTurns(0), hasUsedSkillCardThisTurn(false) {}
-Player::~Player() {} // Hand pointers (SkillCard) dihapus oleh CardDeck, Player tidak mendelete-nya.
+Player::Player(string name, int startBalance, Color c) : username(name), balance(startBalance), position(0), status("ACTIVE"), jailTurns(0), hasUsedSkillCardThisTurn(false), playerColor(c) {}
+Player::~Player() {} 
 
 string Player::getUsername() const { return username; }
 int Player::getBalance() const { return balance; }
@@ -18,13 +21,12 @@ int Player::getTotalWealth() const {
 }
 const vector<SkillCard*>& Player::getHand() const { return hand; }
 const vector<PropertyTile*>& Player::getOwnedProperties() const { return ownedProperties; }
-int Player::getJailTurns() const { return jailTurns; }
 
 void Player::setPosition(int pos) { position = pos; }
 void Player::setStatus(string stat) { status = stat; }
 void Player::setJailTurns(int turns) { jailTurns = turns; }
 void Player::setUsedSkillCardThisTurn(bool used) { hasUsedSkillCardThisTurn = used; }
-
+Color Player::getColor() const { return playerColor; }
 Player& Player::operator+=(int amount) {
     balance += amount;
     return *this;

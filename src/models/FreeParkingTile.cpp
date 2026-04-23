@@ -1,8 +1,11 @@
 #include "models/FreeParkingTile.hpp"
+#include "models/Player.hpp"
 
-FreeParkingTile::FreeParkingTile(int idx, std::string c, std::string n) 
-    : Tile(idx, c, n, "FREE_PARKING") {}
-
+using namespace std;
+FreeParkingTile::FreeParkingTile(int idx, string c, string n) 
+    : Tile(idx, c, n, "FREEPARKING") {}
+// --- FREE PARKING ---
 void FreeParkingTile::onLanded(Player& player, GameManager& gm) {
-    // Tidak melakukan apa-apa (Rest Area)
+    gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "REST", "Istirahat sejenak di Parkir Gratis.");
+    player.setStatus("TURN_ENDED");
 }

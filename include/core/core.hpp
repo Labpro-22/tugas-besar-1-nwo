@@ -1,3 +1,17 @@
 #pragma once
 
 #include "GameManager.hpp"
+#include "Board.hpp"
+#include "GameState.hpp"
+#include "StateDemolishSelect.hpp"
+#include "StateDropCard.hpp"
+#include "StateFestivalSelect.hpp"
+#include "StateJailed.hpp"
+#include "StateLassoSelect.hpp"
+#include "StateLiquidation.hpp"
+#include "StatePromptBuy.hpp"
+#include "StatePromptUpgrade.hpp"
+#include "StateTaxChoice.hpp"
+#include "StateTeleportSelect.hpp"
+#include "StateTurnEnded.hpp"
+#include "StateWaitingRoll.hpp"

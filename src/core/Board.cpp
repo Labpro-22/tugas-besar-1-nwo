@@ -1,8 +1,21 @@
-#include "models/Board.hpp"
+#include "core/Board.hpp"
+#include "models/Player.hpp"
+#include "models/Tile.hpp"
+#include "utils/Dice.hpp"
+#include "models/ConfigReader.hpp"
+#include "models/CardTile.hpp"
+#include "models/FestivalTile.hpp"
+#include "models/JailTile.hpp"
+#include "models/GoTile.hpp"
+#include "models/StreetTile.hpp"
+#include "models/RailroadTile.hpp"
+#include "models/GoToJailTile.hpp"
+#include "models/UtilityTile.hpp"
 
 using namespace std;
 
 Board::Board() {}
+
 Board::~Board() {
     for (Tile* t : tiles) delete t;
 }
@@ -41,10 +54,12 @@ void Board::initDynamicBoard(ConfigReader& config) {
         else if (code == "FESTIVAL") {
             tiles.push_back(new FestivalTile(i, code, "Festival"));
         } 
-        else if (code == "JAIL" || code == "GO_TO_JAIL") {
-            tiles.push_back(new JailTile(i,code,"Jail",2));
-            // tiles.push_back(new Tile(i, code, "Penjara", "JAIL")); 
+        else if (code == "JAIL") {
+            tiles.push_back(new JailTile(i, code, "Jail", 50)); 
         } 
+        else if (code == "GO_TO_JAIL") {
+            tiles.push_back(new GoToJailTile(i, code, "Go To Jail")); 
+        }
         else if (code == "TAX") {
             // Asumsi ambil data pajak dari specialConfig
             int taxAmount = config.getSpecialData("TAX_AMOUNT"); 
@@ -115,7 +130,7 @@ void Board::initDynamicBoard(ConfigReader& config) {
 Tile& Board::getTile(int index) const { return *tiles[index]; }
 int Board::getTileCount() const { return tiles.size(); }
 int Board::getTileIndexByCode(string code) const {
-    for (auto i=0;i<tiles.size();i++){
+    for (long unsigned int i=0;i<tiles.size();i++){
         if (code == tiles[i]->getCode())return i;
     }
     return -1;

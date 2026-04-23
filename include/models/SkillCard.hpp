@@ -1,8 +1,8 @@
 #pragma once
 
 #include "models/Card.hpp"
-#include "models/Player.hpp"
-#include "core/GameManager.hpp"
+// #include "models/Player.hpp"
+// #include "core/GameManager.hpp"
 
 class Player;
 class GameManager;

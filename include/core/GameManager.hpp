@@ -1,12 +1,22 @@
 #pragma once
 
 #include <bits/stdc++.h>
-#include "models/models.hpp"
-#include "utils/utils.hpp"
-#include "models/HumansPlayer.hpp"
-#include "models/ComputerPlayer.hpp"
+#include "core/Board.hpp"
 #include "models/Bank.hpp"
+#include "utils/Dice.hpp"
+#include "utils/TransactionLogger.hpp"
+#include "models/ConfigReader.hpp"
+#include "utils/CardDeck.hpp" 
+#include "core/GameState.hpp"
+// class GameState;
+class Player;
+class PropertyTile;
+class GameGUI;
 
+// Forward declaration buat isi template kartu lu
+class ChanceCard;
+class CommunityChestCard;
+class SkillCard;
 class GameManager {
 private:
     Board board;
@@ -24,6 +34,14 @@ private:
     CardDeck<ChanceCard> chanceDeck;
     CardDeck<CommunityChestCard> communityDeck;
     CardDeck<SkillCard> skillDeck;
+    std::unique_ptr<GameState> currentState;
+
+    bool auctionActive;
+    PropertyTile* auctionProperty;
+    std::vector<Player*> activeBidders;
+    int currentBid;
+    Player* highestBidder;
+    int auctionTurnIndex;
 
 public:
     GameManager(ConfigReader cfg);
@@ -33,34 +51,54 @@ public:
     void runGameLoop();
     void executeTurn(Player& currentPlayer);
     
-    // Core Mechanics
     void handleBankruptcy(Player& debtor, Player* creditor);
     void startAuction(PropertyTile& property);
     void checkWinCondition();
+    int getCurrentTurnCount(){return currentTurnCount;};
 
-    // Accessors
     Board& getBoard();
+    const Board& getBoard() const;
     Bank& getBank();
     Dice& getDice();
+    int getMaxTurn() const{ return maxTurn; }
     TransactionLogger& getLogger();
     Player& getCurrentPlayer();
-    std::vector<Player*>& getAllPlayers();
     CardDeck<ChanceCard>& getChanceDeck();
     CardDeck<CommunityChestCard>& getCommunityDeck();
     CardDeck<SkillCard>& getSkillDeck();
-    int getCurrentTurnCount() const;
-    int getMaxTurn() const;
+    void setTurnData(int count, int index) { 
+        currentTurnCount = count; 
+        currentTurnIndex = index; 
+    }
+    void processBid(int amount);
+    void passAuction();        
+    void endAuction();    
 
-    //untuk savemanager
-    const Board& getBoardConst() const;
-    const Player& getCurrentPlayerConst() const;
-    const std::vector<Player*>& getAllPlayersConst() const;
-    const CardDeck<SkillCard>& getSkillDeckConst() const;
-    const TransactionLogger& getLoggerConst() const;
+    bool isAuctionOngoing() const { return auctionActive; }
+    PropertyTile* getAuctionProperty() const { return auctionProperty; }
+    int getCurrentBid() const { return currentBid; }
+    Player* getHighestBidder() const { return highestBidder; }
+    Player* getCurrentAuctionPlayer() const { 
+        return activeBidders.empty() ? nullptr : activeBidders[auctionTurnIndex]; 
+    }
 
-    //Data-layer
-    void setCurrentTurnCount(int t);
-    void setMaxTurn(int t);
-    void addPlayer(Player* p);
-    void setCurrentPlayerByUsername(const std::string& username);
+    void changeState(std::unique_ptr<GameState> newState) {
+        currentState = std::move(newState);
+        if (currentState) {
+            currentState->onEnter(*this);
+        }
+    }
+
+    void updateStateInput(GameGUI& gui) {
+        if (currentState) currentState->handleInput(*this, gui);
+    }
+    void updateStateUI(GameGUI& gui) {
+        if (currentState) currentState->updateUI(*this, gui);
+    }
+    std::vector<Player*>& getAllPlayers() { return players; }
+
+    // Versi 2: FAKTA mutlak harus ada kata 'const' di awal dan di akhir!
+    const std::vector<Player*>& getAllPlayers() const { return players; }
+
+    
 };

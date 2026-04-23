@@ -1,12 +1,12 @@
-#pragma once
-
-#include <bits/stdc++.h>
 #include <raylib.h>
-class GameManager;
-class PropertyTile;
-class TilePos;
-class Tile;
+#include <bits/stdc++.h>
+// #include "core/GameManager.hpp"
+// #include "models/Tile.hpp"
+// #include "models/GoTile.hpp"
 
+class Tile;
+class PropertyTile;
+class GameManager;
 class GameGUI {
 private:
     GameManager& gm;
@@ -14,20 +14,24 @@ private:
     const int screenHeight = 1000;
     const int tileSize = 80;
     const int boardOffset = 50;
+
     PropertyTile* activeDeed = nullptr; 
     bool showDeedPopup = false;
     bool showSkillMenu = false;
-    bool showAssetList = false; 
+    bool showAssetList = false;
+
+    bool isCommandMode = false;
+    std::string commandText = "";
+
     struct TilePos { int x, y; };
     std::map<int, TilePos> tileMap;
 
     void initTileMap();
     void drawTile(int index, Tile& tile);
     void drawPlayers();
-    void drawUI(); 
+    // void drawUI(); 
     void drawLogBox();
     void drawPlayerHUD();
-    
     void drawAssetList();
     void drawSkillMenu();
     void drawPropertyDeed(); 
@@ -35,11 +39,11 @@ private:
 public:
     GameGUI(GameManager& manager);
     
+    void render(); 
+
     void openDeed(PropertyTile* prop) { 
         if (prop != nullptr) {
-            activeDeed = prop; 
-            showDeedPopup = true; 
-            showAssetList = false;
+            activeDeed = prop; showDeedPopup = true; showAssetList = false; 
         }
     }
     void closeDeed() { activeDeed = nullptr; showDeedPopup = false; }
@@ -59,7 +63,9 @@ public:
     void closeAssetList() { showAssetList = false; }
     bool isAssetListOpen() const { return showAssetList; }
     
-    bool isAnyMenuOpen() const { 
-        return showSkillMenu || showDeedPopup || showAssetList; 
-    }
+    bool isAnyMenuOpen() const { return showSkillMenu || showDeedPopup || showAssetList; }
+    void toggleCommandMode() { isCommandMode = !isCommandMode; commandText = ""; }
+    bool getCommandMode() const { return isCommandMode; }
+    void setCommandText(std::string text) { commandText = text; }
+    void DrawStyledBox(int x, int y, int w, int h, Color color, const char* text, int fontSize) ;
 };

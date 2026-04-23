@@ -1,82 +1,61 @@
 #pragma once
 
-#include <bits/stdc++.h>
+// FAKTA: Buang <bits/stdc++.h> jauh-jauh! Pake yang beneran dibutuhin aja.
+#include <vector>
 #include <algorithm>
 #include <random>
-#include <stdexcept>
-#include <iostream>
+#include <chrono>
+
 template <typename T>
 class CardDeck {
 private:
     std::vector<T*> deck;
     std::vector<T*> discardPile;
+
 public:
-    CardDeck();
-    ~CardDeck();
-    void addCard(T* card);
-    T* drawCard();
-    void discardCard(T* card);
-    void shuffle();
-    bool isEmpty() const;
-    const std::vector<T*>& getDeckCards() const { return deck; }
-};
-//Implementasi dari kelas CardDeck
+    // Constructor
+    CardDeck() {}
 
-template <typename T>
-CardDeck<T>::CardDeck(){
-    //Melakukan insialisasi konstruktor
-}
-
-template <typename T>
-CardDeck<T>::~CardDeck(){
-    for (T* card : deck){
-        delete card;
+    // Destructor (Penting biar gak Memory Leak)
+    ~CardDeck() {
+        for (T* card : deck) delete card;
+        for (T* card : discardPile) delete card;
     }
-    deck.clear();
 
-    for(T* card : discardPile){
-        delete card;
+    // Tambah kartu ke tumpukan (biasanya pas inisialisasi awal)
+    void addCard(T* card) {
+        deck.push_back(card);
     }
-    discardPile.clear();
-}
 
-template <typename T>
-void CardDeck<T>::addCard(T* card){
-    deck.push_back(card);
-}
-
-template <typename T>
-T* CardDeck<T>::drawCard(){
-    if (deck.empty()){
-        if (discardPile.empty()){
-            throw std::runtime_error("Deck dan discard pile kosong, tidak ada kartu yang bisa diambil");
+    // Ambil kartu paling atas
+    T* drawCard() {
+        if (deck.empty()) {
+            if (discardPile.empty()) return nullptr; // Habis total
+            
+            // FAKTA: Kalau deck habis, kocok ulang dari tempat sampah!
+            deck = discardPile;
+            discardPile.clear();
+            shuffle();
         }
-        deck = discardPile;
-        discardPile.clear();
-        shuffle();
+        
+        T* drawnCard = deck.back();
+        deck.pop_back();
+        return drawnCard;
     }
 
-    T* card = deck.front();
-    deck.erase(deck.begin());
-    return card;
-}
+    // Buang kartu yang udah dipake
+    void discardCard(T* card) {
+        discardPile.push_back(card);
+    }
 
-template <typename T>
-void CardDeck<T>::discardCard(T* Card){
-    discardPile.push_back(card);
-}
+    // Kocok tumpukan kartu
+    void shuffle() {
+        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        std::shuffle(deck.begin(), deck.end(), std::default_random_engine(seed));
+    }
 
-template <typename T>
-void CardDeck<T>::shuffle(){
-    std::random_device rd;
-    std::mt19937 rng(rd());
-    std::shuffle(deck.begin(), deck.end(), rng);
-}
-
-template <typename T>
-bool CardDeck<T>::isEmpty() const{
-    return deck.empty() && discardPile.empty();
-}
-
-
-
+    // Cek apakah bener-bener kosong
+    bool isEmpty() const {
+        return deck.empty() && discardPile.empty();
+    }
+};

@@ -12,16 +12,8 @@ private:
     std::map<std::string, int> specialConfig;
     int maxTurn;
     int initialBalance;
-
-    void loadPropertyConfig();
-    void loadRailroadConfig();
-    void loadUtilityConfig();
-    void loadTaxConfig();
-    void loadSpecialConfig();
-    void loadMiscConfig();
-
 public:
-    ConfigReader(std::string dir);
+    ConfigReader(std::string dir):configDirectory(dir){};
     void loadAllConfigs();
     std::map<std::string, std::string> getPropertyData(std::string code) const;
     int getRailroadRent(int count) const;

@@ -1,17 +1,19 @@
 #include "models/DiscountCard.hpp"
 #include "models/Player.hpp"
 #include "core/GameManager.hpp"
+#include "core/StateTurnEnded.hpp"
 #include <iostream>
 
-DiscountCard::DiscountCard(int percent)
-    : SkillCard("DiscountCard: Diskon " + std::to_string(percent) + "%", percent, 1){}
+using namespace std;
 
-void DiscountCard::activate(Player& player, GameManager& gm){
-    std::cout << "[DISCOUNT CARD] Diskon " << value << "% aktif selama giliran ini.\n";
-    std::cout << "Diskon berlaku untuk pembelian properti pada giliran ini.\n";
-    gm.getLogger().logAction(0, player.getUsername(), "KARTU", "DisountCard: Diskon " + std::to_string(value) + "% diaktifkan");
-
-    // duration = 1 menandakan kartu masih aktif untuk giliran ini.
-    // GameManager harus memanggil decrementDuration() di akhir giliran
-    // dan menghapus kartu dari hand jika duration == 0.
+DiscountCard::DiscountCard(int percent) : SkillCard("Diskon " + to_string(percent) + "%", percent, 1) {}
+// void DiscountCard::activate(Player& player, GameManager& gm) {
+//     player.setStatus("DISCOUNT");
+//     cout << ">> BING! Kartu Diskon diaktifkan. Kamu mendapat potongan sewa 50% untuk 1x transaksi ke depan!\n";
+// }
+void DiscountCard::activate(Player& player, GameManager& gm) {
+    // player.setBuff("DISCOUNT", 1); // Asumsi lu punya sistem Buff
+    gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "BUFF", "Potongan sewa aktif!");
+    player.setStatus("TURN_ENDED");
+    gm.changeState(std::make_unique<StateTurnEnded>());
 }

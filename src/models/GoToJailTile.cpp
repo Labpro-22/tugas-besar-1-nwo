@@ -1,11 +1,10 @@
 #include "models/GoToJailTile.hpp"
 
-GoToJailTile::GoToJailTile(int idx, std::string c, std::string n) 
-    : Tile(idx, c, n, "GOTO_JAIL") {}
-
+GoToJailTile::GoToJailTile(int idx, std::string c, std::string n):Tile(idx,c,n,"GOTOJAIL"){}
+// --- GO TO JAIL TILE (Kena Razia) ---
 void GoToJailTile::onLanded(Player& player, GameManager& gm) {
-    // Set posisi player ke indeks JailTile dan status = "JAILED"
-    player.setPosision(11);
-    player.setStatus("JAILED");
-    player.setJailTurns(3);
+    gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "ARRESTED", "Kena razia! Masuk penjara!");
+    int jailIdx = gm.getBoard().getTileIndexByCode("JAIL"); 
+    player.setPosition(jailIdx != -1 ? jailIdx : 10); 
+    player.setStatus("JAILED"); // Status ini akan memicu menu penjara di giliran berikutnya
 }

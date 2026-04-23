@@ -1,9 +1,26 @@
 #include "models/CardTile.hpp"
+#include "core/GameManager.hpp"
+#include "models/SkillCard.hpp"
+#include "models/Player.hpp"
+#include "utils/HandFullException.hpp"
+using namespace std;
 
-CardTile::CardTile(int idx, std::string c, std::string n, std::string type) 
+CardTile::CardTile(int idx, string c, string n, string type) 
     : Tile(idx, c, n, type), deckType(type) {}
-
 void CardTile::onLanded(Player& player, GameManager& gm) {
-    // Logika mengambil kartu dari deck sesuai deckType (CHANCE/COMMUNITY_CHEST)
-    // Lalu memanggil card->execute(player, gm)
+    gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "DRAW", "Mengambil kartu...");
+    
+    SkillCard* drawnCard = gm.getSkillDeck().drawCard(); 
+    if (!drawnCard) return;
+
+    // FAKTA: Gak usah activate() di sini, simpan ke tangan dulu!
+    try {
+        player.addSkillCard(drawnCard); 
+        gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "KEEP", "Simpan: " + drawnCard->getDescription());
+        player.setStatus("TURN_ENDED");
+    } catch (const HandFullException& e) {
+        gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "HAND_FULL", "Tas penuh!");
+        gm.getSkillDeck().discardCard(drawnCard);
+        player.setStatus("DROP_CARD"); 
+    }
 }

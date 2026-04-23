@@ -10,5 +10,4 @@ public:
     void printLogs(int count = -1) const;
     const std::vector<std::string>& getLogs() const;
     void clearLogs();
-    void addRawLog(const std::string& entry);
 };

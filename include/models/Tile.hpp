@@ -1,14 +1,10 @@
 #pragma once
 
 #include <bits/stdc++.h>
-
-<<<<<<< Updated upstream
+#include <raylib.h>
+#include "utils/Dice.hpp"
 // #include "core/GameManager.hpp"
 // #include "models/Player.hpp"
-=======
-#include "core/GameManager.hpp"
-#include "models/Player.hpp"
->>>>>>> Stashed changes
 class GameManager;
 class Player;
 
@@ -27,6 +23,20 @@ public:
     std::string getCode() const;
     std::string getName() const;
     std::string getType() const;
-
     virtual void onLanded(Player& player, GameManager& gm) = 0;
+    virtual bool hasHeaderColor() const { return false; }
+    virtual Color getHeaderColor() const { return BLANK; }
+    virtual std::string getExtraDetails() const { return ""; }
+    virtual bool isProperty() const { return false; }
+    virtual int getBuyPrice() const { return 0; }
+    virtual std::string getOwner() const { return "SYSTEM"; }
+    virtual int getBuildingCount() const { return 0; }
+    virtual int getUpgradePrice() const { return 0; } // FAKTA: Harga bangun rumah
+    virtual bool isStreet() const { return false; }
+    virtual bool canBuild() const { return false; }
+    virtual void build(){};
+    virtual bool canUpgrade(const GameManager&) const { return false; }
+    virtual bool isFestivalActive() const { return false; }
+    virtual int getCurrentRent(const Dice& , const GameManager&) const { return 0; }
+    
 };

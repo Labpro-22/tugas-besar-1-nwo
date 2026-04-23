@@ -2,41 +2,28 @@
 #include <iostream>
 #include <stdexcept>
 
-void TransactionLogger::logAction(int turn, std::string username, std::string action, std::string detail){
-    // Mengikuti format dari spek
-    std::string entry = "[Turn " + std::to_string(turn) + "] " + username + " | " + action + " | " + detail;
-    logEntries.push_back(entry);
+using namespace std;
+
+void TransactionLogger::logAction(int turn, string username, string action, string detail) {
+    string log = "[Turn " + to_string(turn) + "] " + username + " | " + action + " | " + detail;
+    logEntries.push_back(log);
+}
+const vector<string>& TransactionLogger::getLogs() const { 
+    return logEntries; 
+}
+
+void TransactionLogger::clearLogs() { 
+    logEntries.clear(); 
 }
 
 void TransactionLogger::printLogs(int count) const {
-    if (logEntries.empty()) {
-        std::cout << "Belum ada log transaksi.\n";
-        return;
+    // Kalau -1 atau kelebihan, print semua. Kalau ada angka, print sebanyak angka itu (dari bawah).
+    int limit = (count == -1 || count > logEntries.size()) ? logEntries.size() : count;
+    int start = logEntries.size() - limit;
+    
+    std::cout << "\n--- SYSTEM LOGS ---\n";
+    for (int i = start; i < logEntries.size(); i++) {
+        std::cout << logEntries[i] << "\n";
     }
-
-    if (count == -1){
-        std::cout << "=== Log Transaksi Penuh ===\n";
-        for (const std::string& entry : logEntries) {
-            std::cout << entry << "\n";
-        }
-    } else {
-        std::cout << "=== Log Transaksi (" << count << " Terakhir) ====\n";
-        int start = (int)logEntries.size() - count;
-        if (start < 0) start = 0;
-        for (int i = start; i < (int)logEntries.size(); i++){
-            std::cout << logEntries[i] << "\n";
-        }
-    }
-}
-
-const std::vector<std::string>& TransactionLogger::getLogs() const {
-    return logEntries;
-}
- 
-void TransactionLogger::clearLogs() {
-    logEntries.clear();
-}
-
-void TransactionLogger::addRawLog(const std::string& entry){
-    logEntries.push_back(entry);
+    std::cout << "-------------------\n";
 }

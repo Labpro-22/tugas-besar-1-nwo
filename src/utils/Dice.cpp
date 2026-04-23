@@ -17,3 +17,6 @@ int Dice::getTotal() const { return die1 + die2; }
 bool Dice::isDouble() const { return die1 == die2; }
 int Dice::getConsecutiveDoubles() const { return consecutiveDoubles; }
 void Dice::resetDoubles() { consecutiveDoubles = 0; }
+
+int Dice::getDie1() const { return die1;}
+int Dice::getDie2() const { return die2;}

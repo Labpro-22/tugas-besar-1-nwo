@@ -1,13 +1,14 @@
 #include "models/TaxTile.hpp"
 #include "utils/Dice.hpp"
-
-TaxTile::TaxTile(int idx, std::string c, std::string n, std::string type, int flat, int pct)
+#include "models/Player.hpp"
+#include "core/GameManager.hpp"
+using namespace std;
+TaxTile::TaxTile(int idx, string c, string n, string type, int flat, int pct)
     : Tile(idx, c, n, "TAX"), taxType(type), flatTax(flat), percentageTax(pct) {}
-
 void TaxTile::onLanded(Player& player, GameManager& gm) {
-    if (taxType == "PPH") {
-        // Tawarkan pilihan: Bayar flat atau % dari total kekayaan
-    } else {
-        // PBM: Langsung potong flatTax
-    }
+    // 1. Catat ke Log in-game
+    gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "INFO", "Mendarat di Petak Pajak!");
+
+    // 2. FAKTA: Lempar status ke UI biar layarnya nampilin menu pilihan
+    player.setStatus("TAX_CHOICE");
 }

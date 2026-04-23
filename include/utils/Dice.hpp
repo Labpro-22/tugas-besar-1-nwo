@@ -15,4 +15,6 @@ public:
     bool isDouble() const;
     int getConsecutiveDoubles() const;
     void resetDoubles();
+    int getDie1() const;
+    int getDie2() const;
 };

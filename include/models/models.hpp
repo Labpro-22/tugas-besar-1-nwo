@@ -4,8 +4,6 @@
 #include "models/Card.hpp"
 #include "models/Tile.hpp"
 #include "models/Player.hpp"
-#include "models/Board.hpp"
-
 #include "models/CardTile.hpp"
 #include "models/JailTile.hpp"
 #include "models/GoToJailTile.hpp"

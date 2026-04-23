@@ -1,23 +1,14 @@
 #include "models/GoTile.hpp"
-
-GoTile::GoTile(int idx, std::string c, std::string n, int salary) 
-    : Tile(idx, c, n, "SPECIAL"), salaryAmount(salary) {}
-
+#include "models/Player.hpp"
+using namespace std;
+GoTile::GoTile(int idx, string c, string n, int salary) 
+    : Tile(idx, c, n, "GO"), salaryAmount(salary) {}
+// --- GO TILE ---
 void GoTile::onLanded(Player& player, GameManager& gm) {
-    std::cout << "Mendarat tepat di petak GO! Menerima gaji sebesar M" << salaryAmount << "." << std::endl;
-    
-    player += salaryAmount;
-    
-    // Mencatat ke Transaction Logger melalui GameManager
-    gm.getLogger().logAction(gm.getCurrentTurn(), player.getUsername(), "GAJI", "Berhenti di GO");
+    gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "GO", "Mendarat tepat di START!");
+    player.setStatus("TURN_ENDED");
 }
-
 void GoTile::passGo(Player& player, GameManager& gm) {
-    std::cout << "Melewati petak GO! Menerima gaji sebesar M" << salaryAmount << "." << std::endl;
-    
     player += salaryAmount;
-    
-    // Mencatat ke Transaction Logger
-    gm.getLogger().logAction(gm.getCurrentTurn(), player.getUsername(), "GAJI", "Melewati GO");
-    
+    gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "CASH", "Lewat START! Gaji M" + to_string(salaryAmount) + " cair.");
 }
