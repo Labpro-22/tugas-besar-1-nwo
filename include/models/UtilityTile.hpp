@@ -3,11 +3,13 @@
 #include "models/Tile.hpp"
 #include "models/PropertyTile.hpp"
 #include "utils/utils.hpp"
-class RailroadTile : public PropertyTile {
+
+class UtilityTile : public PropertyTile {
 private:
-    std::map<int, int> rentTable; 
+    std::map<int, int> multiplierTable;
 public:
-    RailroadTile(int idx, std::string c, std::string n, int price, int mortgage, std::map<int, int> rents);
+    UtilityTile(int idx, std::string c, std::string n, int price, int mortgage, std::map<int, int> multipliers);
+    
     int calculateRent(Dice& dice, int ownerPropertyCount) override;
     void onLanded(Player& player, GameManager& gm) override;
 };
