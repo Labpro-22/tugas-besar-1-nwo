@@ -13,7 +13,7 @@ void CardTile::onLanded(Player& player, GameManager& gm) {
     SkillCard* drawnCard = gm.getSkillDeck().drawCard(); 
     if (!drawnCard) return;
 
-    // FAKTA: Gak usah activate() di sini, simpan ke tangan dulu!
+    
     try {
         player.addSkillCard(drawnCard); 
         gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "KEEP", "Simpan: " + drawnCard->getDescription());

@@ -61,13 +61,11 @@ void Board::initDynamicBoard(ConfigReader& config) {
             tiles.push_back(new GoToJailTile(i, code, "Go To Jail")); 
         }
         else if (code == "TAX") {
-            // Asumsi ambil data pajak dari specialConfig
+            
             int taxAmount = config.getSpecialData("TAX_AMOUNT"); 
-            // tiles.push_back(new TaxTile(i, code, "Pajak", taxAmount));
+            
         } 
-        // --- PENANGANAN PETAK PROPERTI ---
         else {
-            // Ambil data properti dari map ConfigReader
             map<string, string> propData = config.getPropertyData(code);
             
             if (!propData.empty()) {
@@ -77,33 +75,27 @@ void Board::initDynamicBoard(ConfigReader& config) {
               << " | String PRICE: '" << propData["PRICE"] << "'"
               << " | String MORTGAGE: '" << propData["MORTGAGE"] << "'\n";
                 int price = stoi(propData["PRICE"]);
-                int mortgage = stoi(propData["MORTGAGE"]); // Atau price / 2 kalau ga ada di txt
+                int mortgage = stoi(propData["MORTGAGE"]);
 
                 if (type == "STREET") {
                     string color = propData["COLOR"];
-                    
-                    // Asumsi lu nyimpen harga rumah dengan key "HOUSE_PRICE" di map ConfigReader
+            
                     int hPrice = stoi(propData["HOUSE_PRICE"]); 
-                    
-                    // Tarik data sewa ke dalam vector. 
-                    // Sesuaikan nama key ("RENT_0", dll) dengan logika parsing lu di loadAllConfigs
                     vector<int> rents;
                     
-                    rents.push_back(stoi(propData["RENT_0"])); // Sewa tanah kosong
-                    rents.push_back(stoi(propData["RENT_1"])); // Sewa 1 rumah
-                    rents.push_back(stoi(propData["RENT_2"])); // Sewa 2 rumah
-                    rents.push_back(stoi(propData["RENT_3"])); // Sewa 3 rumah
-                    rents.push_back(stoi(propData["RENT_4"])); // Sewa 4 rumah
-                    rents.push_back(stoi(propData["RENT_5"])); // Sewa hotel
+                    rents.push_back(stoi(propData["RENT_0"])); 
+                    rents.push_back(stoi(propData["RENT_1"])); 
+                    rents.push_back(stoi(propData["RENT_2"]));
+                    rents.push_back(stoi(propData["RENT_3"])); 
+                    rents.push_back(stoi(propData["RENT_4"]));
+                    rents.push_back(stoi(propData["RENT_5"])); 
 
-                    // Instansiasi sesuai urutan parameter lo: 
-                    // (idx, code, name, price, mortgage, color, hPrice, rents)
                     tiles.push_back(new StreetTile(i, code, name, price, mortgage, color, hPrice, rents));
                 } 
 
                 else if (type == "RAILROAD") {
                     map<int, int> rrRents;
-                    // Monopoli standar punya 4 stasiun, jadi kita tarik 4 data
+                    
                     rrRents[1] = config.getRailroadRent(1);
                     rrRents[2] = config.getRailroadRent(2);
                     rrRents[3] = config.getRailroadRent(3);
@@ -113,7 +105,6 @@ void Board::initDynamicBoard(ConfigReader& config) {
                 } 
                 else if (type == "UTILITY") {
                     map<int, int> utilMults;
-                    // Monopoli standar punya 2 utility (PLN & PAM), tarik 2 data
                     utilMults[1] = config.getUtilityMultiplier(1);
                     utilMults[2] = config.getUtilityMultiplier(2);
 

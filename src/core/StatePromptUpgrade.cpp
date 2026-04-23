@@ -9,13 +9,12 @@ void StatePromptUpgrade::updateUI(GameManager& gm, GameGUI& gui) {
     if (gui.isAnyMenuOpen()) return;
     Player& p = gm.getCurrentPlayer();
     Tile& t = gm.getBoard().getTile(p.getPosition());
-    
-    // FAKTA: baseY diturunkan sedikit biar gak tabrakan sama Dadu
+
     int baseY = 410; 
     int boxH = 140;
 
-    DrawRectangle(910, baseY, 280, boxH, Fade(GREEN, 0.1f)); // Background soft
-    DrawRectangleLines(910, baseY, 280, boxH, DARKGREEN);   // Border tegas
+    DrawRectangle(910, baseY, 280, boxH, Fade(GREEN, 0.1f)); 
+    DrawRectangleLines(910, baseY, 280, boxH, DARKGREEN);   
     
     DrawText("UPGRADE PROPERTI", 925, baseY + 15, 18, DARKGREEN);
     
@@ -36,7 +35,7 @@ void StatePromptUpgrade::handleInput(GameManager& gm, GameGUI&) {
     if (IsKeyPressed(KEY_U)) {
         if (p.getBalance() >= t.getUpgradePrice()) {
             p -= t.getUpgradePrice();
-            t.build(); // FAKTA: Polymorphism murni tanpa casting!
+            t.build();
             gm.getLogger().logAction(gm.getCurrentTurnCount(), p.getUsername(), "BUILD", "Membangun properti.");
             p.setStatus("TURN_ENDED");
             gm.changeState(std::make_unique<StateTurnEnded>());

@@ -25,7 +25,7 @@ void StateTurnEnded::handleInput(GameManager& gm, GameGUI& gui) {
 void StateTurnEnded::updateUI(GameManager& , GameGUI& gui) {
     if (gui.isAnyMenuOpen()) return;
     
-    int baseY = 370; // FAKTA: Balikin ke patokan kanan layar
+    int baseY = 370; 
     DrawText("GILIRAN SELESAI", 920, baseY, 18, DARKGRAY);
     DrawText("[ENTER] LANJUT", 920, baseY + 30, 20, BLACK);
 }

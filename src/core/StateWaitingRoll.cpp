@@ -21,7 +21,7 @@
 void StateWaitingRoll::updateUI(GameManager& gm, GameGUI& gui) {
     if (gui.isAnyMenuOpen()) return;
     
-    int baseY = 370; // Koordinat asli dari kode Test.cpp lu
+    int baseY = 370; 
     DrawText("[SPACE] KOCOK DADU", 920, baseY + 30, 22, DARKGREEN);
     DrawText("[S] SAVE GAME", 920, baseY + 65, 16, DARKBLUE);
     DrawText("[C] COMMAND MODE", 920, baseY + 85, 16, PURPLE);
@@ -30,7 +30,6 @@ void StateWaitingRoll::updateUI(GameManager& gm, GameGUI& gui) {
 void StateWaitingRoll::transitionAfterMove(GameManager& gm, Player& p) {
     std::string s = p.getStatus();
     
-    // FAKTA: Pakai find() == 0 buat ngecek "Apakah string diawali dengan kata ini?"
     if (s.find("PROMPT_BUY") == 0) {
         gm.changeState(std::make_unique<StatePromptBuy>());
     } else if (s.find("TAX_CHOICE") == 0) {
@@ -99,10 +98,10 @@ void StateWaitingRoll::handleInput(GameManager& gm, GameGUI& gui) {
                 p.setStatus("LIQUIDATING_" + std::to_string(e.getRequired() - e.getAvailable()));
             }
             
-            // PANGGIL INI SEBAGAI BARIS TERAKHIR!
+            
             transitionAfterMove(gm, p);
             
-            // FAKTA KRUSIAL: Wajib return biar fungsi berhenti jalan setelah State-nya dihancurkan!
+            
             return; 
         }
     } else {

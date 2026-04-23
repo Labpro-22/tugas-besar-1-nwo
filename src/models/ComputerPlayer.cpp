@@ -7,11 +7,10 @@ ComputerPlayer::ComputerPlayer(string name, int startBalance, Color c) : Player(
 void ComputerPlayer::promptTurnAction(GameManager& gm) {
     gm.getLogger().logAction(gm.getCurrentTurnCount(), username, "START_TURN", "Giliran COM (Saldo: M" + to_string(balance) + ")");
 
-    // 1. PENANGANAN PENJARA (AI Otomatis Bayar Denda kalau Kaya)
+   
     if (status == "JAILED") {
         if (balance >= 50) {
             *this -= 50; 
-            // FAKTA: Panggil Bank sesuai deklarasi di Test.hpp
             gm.getBank().collect(50, gm); 
             setStatus("ACTIVE");
             gm.getLogger().logAction(gm.getCurrentTurnCount(), username, "FREE", "COM bayar denda M50.");

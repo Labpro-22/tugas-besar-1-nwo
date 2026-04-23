@@ -30,7 +30,6 @@ void StateTeleportSelect::updateUI(GameManager& , GameGUI& gui) {
 void StateTeleportSelect::handleInput(GameManager& gm, GameGUI&) {
     Player& p = gm.getCurrentPlayer();
     
-    // 1. Nangkep ketikan angka dari keyboard (Max 2 digit)
     int key = GetCharPressed();
     while (key > 0) {
         if ((key >= '0') && (key <= '9') && (inputBuffer.length() < 2)) {
@@ -39,16 +38,13 @@ void StateTeleportSelect::handleInput(GameManager& gm, GameGUI&) {
         key = GetCharPressed();
     }
 
-    // 2. Nangkep tombol Hapus (Backspace)
     if (IsKeyPressed(KEY_BACKSPACE) && inputBuffer.length() > 0) {
         inputBuffer.pop_back();
     }
 
-    // 3. Eksekusi Teleport HANYA saat dipencet ENTER
     if (IsKeyPressed(KEY_ENTER) && inputBuffer.length() > 0) {
         int targetID = std::stoi(inputBuffer);
         
-        // Validasi: Pastikan ID petaknya ada (0 sampai 39)
         if (targetID >= 0 && targetID < gm.getBoard().getTileCount()) {
             p.setPosition(targetID);
             gm.getLogger().logAction(gm.getCurrentTurnCount(), p.getUsername(), "TELEPORT", "Pindah ke petak " + std::to_string(targetID));
@@ -59,7 +55,7 @@ void StateTeleportSelect::handleInput(GameManager& gm, GameGUI&) {
                 p.setStatus("LIQUIDATING_" + std::to_string(e.getRequired() - e.getAvailable())); 
             }
             
-            // 4. FAKTA: Setelah teleport, nasib player harus dievaluasi lagi!
+           
             std::string s = p.getStatus();
             if (s.find("PROMPT_BUY") == 0) gm.changeState(std::make_unique<StatePromptBuy>());
             else if (s.find("TAX_CHOICE") == 0) gm.changeState(std::make_unique<StateTaxChoice>());
@@ -70,7 +66,7 @@ void StateTeleportSelect::handleInput(GameManager& gm, GameGUI&) {
                 gm.changeState(std::make_unique<StateTurnEnded>());
             }
         } else {
-            // Kalau nginput angka 40 ke atas, bersihin inputan biar ngetik ulang
+           
             inputBuffer = ""; 
         }
     }

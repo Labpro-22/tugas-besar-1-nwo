@@ -100,28 +100,22 @@ void StateLiquidation::handleInput(GameManager& gm, GameGUI& ) {
         return;
     }
 
-    // 3. Logika mencet tombol angka [1-9] buat gadai properti
-    // 3. Logika mencet tombol angka [1-9] buat gadai properti
+  
     for (long unsigned int i = 0; i < liquidatable.size(); i++) {
-        if (i > 8) break; // Maksimal mapping ke tombol 1-9
+        if (i > 8) break; 
         
         if (IsKeyPressed(KEY_ONE + i)) {
             PropertyTile* prop = liquidatable[i];
-            
-            // FAKTA: Pasang sabuk pengaman TRY-CATCH!
             try {
-                prop->mortgageProperty(); // Coba gadai...
-                
-                // Kalau sukses, gak ada error yang dilempar, lanjut tambah duit
+                prop->mortgageProperty(); 
                 p += prop->getMortgageValue(); 
                 gm.getLogger().logAction(gm.getCurrentTurnCount(), p.getUsername(), "MORTGAGE", "Gadai " + prop->getName() + " (+M" + std::to_string(prop->getMortgageValue()) + ")");
                 
             } catch (const IllegalMortgageException& e) {
-                // FAKTA: Kalau gagal karena ada rumah, tangkep pesannya dan masukin ke LOG!
+                
                 gm.getLogger().logAction(gm.getCurrentTurnCount(), p.getUsername(), "ERROR", e.what());
                 
             } catch (const std::exception& e) {
-                // Jaga-jaga kalau ada error aneh lainnya
                 gm.getLogger().logAction(gm.getCurrentTurnCount(), p.getUsername(), "ERROR", "Gagal gadai: System Error");
             }
         }

@@ -25,7 +25,7 @@ string SaveManager::openLoadFileDialog() {
     if (fgets(filename, sizeof(filename), f) != nullptr) {
         std::string result(filename);
         if (!result.empty() && result.back() == '\n') result.pop_back();
-        // FAKTA: Jangan dipotong! Biarkan return path absolut agar bisa simpan di mana saja.
+       
         pclose(f);
         return result;
     }

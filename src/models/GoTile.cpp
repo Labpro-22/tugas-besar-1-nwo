@@ -3,7 +3,6 @@
 using namespace std;
 GoTile::GoTile(int idx, string c, string n, int salary) 
     : Tile(idx, c, n, "GO"), salaryAmount(salary) {}
-// --- GO TILE ---
 void GoTile::onLanded(Player& player, GameManager& gm) {
     gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "GO", "Mendarat tepat di START!");
     player.setStatus("TURN_ENDED");
