@@ -54,6 +54,7 @@ public:
     void dropSkillCard(int index);
     void addProperty(PropertyTile* prop);
     void removeProperty(PropertyTile* prop);
-    
-    virtual void promptTurnAction(GameManager& gm) = 0;
+    virtual bool isBot() const { return false; }
+    virtual void takeTurn(GameManager& gm) = 0;
+    // virtual void promptTurnAction(GameManager& gm) = 0;
 };

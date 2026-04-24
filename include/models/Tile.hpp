@@ -7,7 +7,8 @@
 // #include "models/Player.hpp"
 class GameManager;
 class Player;
-
+class TaxTile;
+class PropertyTile;
 
 class Tile {
 protected:
@@ -38,5 +39,7 @@ public:
     virtual bool canUpgrade(const GameManager&) const { return false; }
     virtual bool isFestivalActive() const { return false; }
     virtual int getCurrentRent(const Dice& , const GameManager&) const { return 0; }
+    virtual PropertyTile* getAsProperty() { return nullptr; }
+    virtual TaxTile* getAsTax() { return nullptr; }
     
 };

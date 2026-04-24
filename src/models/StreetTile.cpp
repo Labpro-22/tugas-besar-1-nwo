@@ -2,9 +2,18 @@
 #include "utils/Dice.hpp"
 #include "models/Player.hpp"
 #include "core/GameManager.hpp"
+#include "core/StatePromptBuy.hpp"
+#include "core/StatePromptUpgrade.hpp"
+#include "core/StateTurnEnded.hpp"
 using namespace std;
 StreetTile::StreetTile(int idx, string c, string n, int price, int mortgage, string color, int hPrice, vector<int> rents)
-    : PropertyTile(idx, c, n, "STREET", price, mortgage), colorGroup(color), housePrice(hPrice), rentTable(rents), buildingCount(0), festivalMultiplier(1), festivalDuration(0) {}
+    : PropertyTile(idx, c, n, "STREET", price, mortgage),
+     colorGroup(color),
+     housePrice(hPrice),
+     rentTable(rents), 
+     buildingCount(0), 
+     festivalMultiplier(1), 
+     festivalDuration(0) {}
 
 
 void StreetTile::buildHouse() { if(buildingCount < 5) buildingCount++; }
@@ -33,22 +42,29 @@ int StreetTile::getTotalBuildingValue() const { return buildingCount * housePric
 void StreetTile::onLanded(Player& player, GameManager& gm) {
     gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "INFO", "Mendarat di " + name);
 
-    if (ownerName == "BANK") {
-        // 1. Belum ada yang punya -> Tawarkan Beli
-        player.setStatus("PROMPT_BUY_" + this->code);
+    // 1. Belum ada yang punya -> Tawarkan Beli
+    if (ownerName == "BANK" || ownerName == "") { 
+        player.setStatus("PROMPT_BUY_" + this->code); // Atur status
+        gm.changeState(std::make_unique<StatePromptBuy>()); // PANGGIL LAYAR BELI!
     } 
+    // 2. Tanah sendiri -> Tawarkan Upgrade jika belum mentok
     else if (ownerName == player.getUsername()) {
-        // 2. Tanah sendiri -> Tawarkan Upgrade jika belum L5 (Hotel)
-        if (this->canUpgrade(gm)) player.setStatus("PROMPT_UPGRADE");
-        else player.setStatus("TURN_ENDED");
+        if (this->canBuild()) { // Pake canBuild() yang udah kita set < 5 tadi
+            player.setStatus("PROMPT_UPGRADE");
+            gm.changeState(std::make_unique<StatePromptUpgrade>()); // PANGGIL LAYAR UPGRADE!
+        } else {
+            player.setStatus("TURN_ENDED");
+            gm.changeState(std::make_unique<StateTurnEnded>()); // PANGGIL LAYAR SELESAI
+        }
     } 
+    // 3. Sedang digadai -> Gratis
     else if (propertyStatus == "MORTGAGED") {
-        // 3. Sedang digadai -> Gratis
         gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "INFO", name + " digadai. Bebas sewa!");
         player.setStatus("TURN_ENDED");
+        gm.changeState(std::make_unique<StateTurnEnded>()); // PANGGIL LAYAR SELESAI
     } 
+    // 4. Tanah orang -> Bayar Sewa
     else {
-        // 4. FAKTA: LOGIKA BAYAR SEWA YANG SEMPET ILANG!
         Player* owner = nullptr;
         for (Player* p : gm.getAllPlayers()) {
             if (p->getUsername() == ownerName) { owner = p; break; }
@@ -57,10 +73,11 @@ void StreetTile::onLanded(Player& player, GameManager& gm) {
         if (owner != nullptr) {
             int rent = calculateRent(gm.getDice(), 0); 
             
-            // Cek saldo, kalau kurang lempar Exception
-            if (player.getBalance() < rent) throw InsufficientFundsException(rent, player.getBalance());
+            // Cek saldo, kalau kurang lempar Exception ke StateLiquidation
+            if (player.getBalance() < rent) {
+                throw InsufficientFundsException(rent, player.getBalance());
+            }
 
-            // Transaksi mutlak
             player -= rent;
             *owner += rent;
             
@@ -68,9 +85,9 @@ void StreetTile::onLanded(Player& player, GameManager& gm) {
                 "Bayar sewa M" + std::to_string(rent) + " ke " + ownerName);
         }
         player.setStatus("TURN_ENDED");
+        gm.changeState(std::make_unique<StateTurnEnded>()); // PANGGIL LAYAR SELESAI (Nanti drama Rent muncul di sini!)
     }
 }
-
 bool StreetTile::canUpgrade(const GameManager& gm) const {
     if (buildingCount >= 5) return false; 
 
@@ -80,8 +97,6 @@ bool StreetTile::canUpgrade(const GameManager& gm) const {
     // Sekarang gm.getBoard() bakal manggil versi const!
     for (Tile* t : gm.getBoard().getAllTiles()) {
         if (t->isProperty() && t->getType() == "STREET") {
-            // Karena t itu pointer ke Tile, dan lu butuh getColorGroup dari StreetTile,
-            // kita harus cast dulu biar bisa panggil fungsi itu.
             const StreetTile* st = dynamic_cast<const StreetTile*>(t);
             
             // Cek apakah warnanya sama dengan petak ini (this->colorGroup)

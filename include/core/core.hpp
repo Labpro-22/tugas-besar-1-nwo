@@ -15,3 +15,4 @@
 #include "StateTeleportSelect.hpp"
 #include "StateTurnEnded.hpp"
 #include "StateWaitingRoll.hpp"
+#include "StateAuction.hpp"

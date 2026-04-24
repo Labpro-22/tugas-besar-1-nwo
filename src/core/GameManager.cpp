@@ -7,6 +7,8 @@
 #include "core/GameState.hpp"
 #include "core/Board.hpp"
 #include "core/StateWaitingRoll.hpp"
+#include "core/StateTurnEnded.hpp"
+#include "core/StateJailed.hpp"
 #include "models/Bank.hpp"
 class HumanPlayer;
 class ComputerPlayer;
@@ -56,26 +58,27 @@ void GameManager::initializeGame(int numPlayers, const vector<string>& playerNam
 
 }
 void GameManager::runGameLoop() {
-    
     if (!isGameOver) {
         checkWinCondition();
-    
+        if (isGameOver) return; 
+
+     
         currentTurnIndex = (currentTurnIndex + 1) % players.size();
-        
         
         if (currentTurnIndex == 0) {
             currentTurnCount++;
         }
 
-       
         logger.logAction(currentTurnCount, players[currentTurnIndex]->getUsername(), "SYSTEM", "Mulai giliran.");
         players[currentTurnIndex]->setStatus("WAITING_ROLL");
-        changeState(std::make_unique<StateWaitingRoll>());
+
+       
+        executeTurn(*players[currentTurnIndex]);
     }
 }
 void GameManager::executeTurn(Player& currentPlayer) {
     if (currentPlayer.getStatus() == "BANKRUPT") return;
-    currentPlayer.promptTurnAction(*this);
+    currentPlayer.takeTurn(*this);
 }
 void GameManager::handleBankruptcy(Player& debtor, Player* creditor) {
     debtor.setStatus("BANKRUPT");
@@ -83,7 +86,7 @@ void GameManager::handleBankruptcy(Player& debtor, Player* creditor) {
 
     vector<PropertyTile*> assets = debtor.getOwnedProperties();
 
-    for (int i = 0; i < assets.size(); i++) {
+    for (size_t i = 0; i < assets.size(); i++) {
         PropertyTile* prop = assets[i];
         
         if (creditor != nullptr) {
@@ -132,7 +135,7 @@ void GameManager::processBid(int bid) {
     logger.logAction(currentTurnCount, p->getUsername(), "BID", "Menawar M" + std::to_string(bid));
 
     auctionTurnIndex++;
-    if (auctionTurnIndex >= activeBidders.size()) auctionTurnIndex = 0;
+    if (auctionTurnIndex >= (int)activeBidders.size()) auctionTurnIndex = 0;
 }
 
 void GameManager::passAuction() {
@@ -140,7 +143,7 @@ void GameManager::passAuction() {
     logger.logAction(currentTurnCount, p->getUsername(), "PASS", "Mundur dari lelang.");
 
     activeBidders.erase(activeBidders.begin() + auctionTurnIndex);
-    if (auctionTurnIndex >= activeBidders.size()) auctionTurnIndex = 0;
+    if (auctionTurnIndex >= (int)activeBidders.size()) auctionTurnIndex = 0;
 
     if (activeBidders.size() == 1 && highestBidder != nullptr) {
         endAuction();
@@ -171,14 +174,14 @@ void GameManager::checkWinCondition() {
         isGameOver = true;
         
         Player* winner = nullptr;
-        for (int i = 0; i < players.size(); i++) {
+        for (long unsigned int i = 0; i < players.size(); i++) {
             if (players[i]->getStatus() != "BANKRUPT") {
                 winner = players[i];
                 break;
             }
         }
         if (winner != nullptr) {
-            for (int i = 0; i < players.size(); i++) {
+            for (long unsigned int i = 0; i < players.size(); i++) {
                 if (players[i]->getStatus() != "BANKRUPT") {
                     if (*players[i] > *winner) {
                         winner = players[i];

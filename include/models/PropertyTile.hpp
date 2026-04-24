@@ -29,5 +29,11 @@ public:
     bool isProperty() const override { return true; }
     int getBuyPrice() const override;
     std::string getOwner() const override;
+    PropertyTile* getAsProperty() override { return this; }
+    virtual void applyFestival(int /*multiplier*/, int /*turns*/) {}
+    virtual bool canBuild() const { return false; } 
+    virtual int getHousePrice() const { return 0; }
+    virtual int getHouseCount() const { return 0; }
+    virtual void build() {}
     
 };

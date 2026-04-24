@@ -50,7 +50,6 @@ int RailroadTile::calculateRent(const Dice& dice, int ownerPropertyCount) const 
 int RailroadTile::getCurrentRent(const Dice& d, const GameManager& gm) const {
     if (ownerName == "BANK" || propertyStatus == "MORTGAGED") return 0;
     int count = 0;
-    // gm.getAllPlayers() otomatis manggil versi const sekarang!
     for (const Player* p : gm.getAllPlayers()) {
         if (p->getUsername() == ownerName) {
             for (const PropertyTile* prop : p->getOwnedProperties()) {

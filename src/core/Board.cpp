@@ -20,8 +20,6 @@ Board::~Board() {
     for (Tile* t : tiles) delete t;
 }
 void Board::initDynamicBoard(ConfigReader& config) {
-    // 1. Definisikan urutan papan (Index 0 - 39)
-    // Isi string ini dengan Kode Properti (GRT, TSK) atau Kode Spesial
     string layout[40] = {
         "GO", "CHANCE", "GRT", "CHEST", "TSK",        // 0-4
         "GBR", "BGR", "CHANCE", "DPK", "BKS",         // 5-9

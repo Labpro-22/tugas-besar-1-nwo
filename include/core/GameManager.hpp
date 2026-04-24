@@ -13,7 +13,6 @@ class Player;
 class PropertyTile;
 class GameGUI;
 
-// Forward declaration buat isi template kartu lu
 class ChanceCard;
 class CommunityChestCard;
 class SkillCard;

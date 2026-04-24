@@ -14,4 +14,5 @@ public:
     int getPercentageTax() const { return percentageTax; }
     TaxTile(int idx, std::string c, std::string n, std::string type, int flat, int pct);
     void onLanded(Player& player, GameManager& gm) override;
+    TaxTile* getAsTax() override { return this; }
 };

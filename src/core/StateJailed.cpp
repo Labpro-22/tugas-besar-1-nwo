@@ -25,10 +25,19 @@ void StateJailed::handleInput(GameManager& gm, GameGUI&) {
     }
 }
 
-void StateJailed::updateUI(GameManager&, GameGUI& gui) {
+void StateJailed::updateUI(GameManager& gm, GameGUI& gui) {
     if (gui.isAnyMenuOpen()) return;
     
-    DrawRectangle(400, 850, 400, 40, Fade(BLACK, 0.8f));
-    DrawRectangleLines(400, 850, 400, 40, ORANGE);
-    DrawText("[1] Bayar M50 | [2] Kocok Double", 420, 862, 20, ORANGE);
+    DrawRectangle(200, 300, 400, 200, Fade(BLACK, 0.9f));
+    DrawRectangleLines(200, 300, 400, 200, RED);
+    
+
+    DrawText("ANDA DI PENJARA!", 270, 330, 24, RED);
+    
+
+    DrawText("[1] Bayar Uang Jaminan (M50)", 230, 380, 20, RAYWHITE);
+    DrawText("[2] Kocok Dadu (Harus Double)", 230, 420, 20, RAYWHITE);
+    
+    std::string bal = "Saldo Anda: M" + std::to_string(gm.getCurrentPlayer().getBalance());
+    DrawText(bal.c_str(), 230, 460, 18, GOLD);
 }
