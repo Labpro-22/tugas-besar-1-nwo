@@ -1,0 +1,54 @@
+3 15
+3
+a 990 SOL WAITING_ROLL
+2
+LassoCard
+TeleportCard
+b 950 BKS TURN_ENDED
+1
+ShieldCard
+h 1000 CHANCE TURN_ENDED
+2
+DemolitionCard
+DemolitionCard
+a b h
+a
+28
+GRT street BANK BANK 1 0 0
+TSK street BANK BANK 1 0 0
+GBR railroad b OWNED 1 0 0
+BGR street BANK BANK 1 0 0
+DPK street BANK BANK 1 0 0
+BKS street a OWNED 1 0 0
+MGL street BANK BANK 1 0 0
+PLN utility BANK BANK 1 0 0
+SOL street a OWNED 1 0 0
+YOG street BANK BANK 1 0 0
+STB railroad a OWNED 1 0 0
+MAL street BANK BANK 1 0 0
+SMG street BANK BANK 1 0 0
+SBY street BANK BANK 1 0 0
+MKS street BANK BANK 1 0 0
+BLP street BANK BANK 1 0 0
+MND street BANK BANK 1 0 0
+TUG railroad BANK BANK 1 0 0
+PLB street BANK BANK 1 0 0
+PAM utility a OWNED 1 0 0
+PKB street BANK BANK 1 0 0
+MED street BANK BANK 1 0 0
+BDG street BANK BANK 1 0 0
+DEN street BANK BANK 1 0 0
+MTR street BANK BANK 1 0 0
+GUB railroad BANK BANK 1 0 0
+JKT street BANK BANK 1 0 0
+IKN street BANK BANK 1 0 0
+0
+8
+[Turn 2] SYSTEM | LOAD | Game berhasil dimuat!
+[Turn 2] b | RENT | Bayar M50
+[Turn 2] h | SYSTEM | Mulai giliran.
+[Turn 2] h | DRAW | Mengambil kartu dari CHANCE
+[Turn 2] h | KEEP | Mendapat: Hancurkan Properti Lawan
+[Turn 3] a | SYSTEM | Mulai giliran.
+[Turn 3] a | BUY | Membeli SOLO
+[Turn 3] a | DOUBLE | Dadu Kembar! Jalan Lagi.

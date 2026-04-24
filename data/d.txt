@@ -1,0 +1,78 @@
+6 15
+3
+a 585 DEN WAITING_ROLL
+0
+b 280 YOG TURN_ENDED
+3
+MoveCard 4
+ShieldCard
+TeleportCard
+COM 265 PAM TURN_ENDED
+1
+DemolitionCard
+a b COM
+a
+28
+GRT street BANK BANK 1 0 0
+TSK street BANK BANK 1 0 0
+GBR railroad a OWNED 1 0 0
+BGR street BANK BANK 1 0 0
+DPK street BANK BANK 1 0 0
+BKS street BANK BANK 1 0 0
+MGL street BANK BANK 1 0 0
+PLN utility BANK BANK 1 0 0
+SOL street COM OWNED 1 0 0
+YOG street a OWNED 1 0 0
+STB railroad BANK BANK 1 0 0
+MAL street BANK BANK 1 0 0
+SMG street BANK BANK 1 0 0
+SBY street COM OWNED 1 0 0
+MKS street a OWNED 1 0 0
+BLP street COM OWNED 1 0 0
+MND street BANK BANK 1 0 0
+TUG railroad BANK BANK 1 0 0
+PLB street a OWNED 1 0 0
+PAM utility COM OWNED 1 0 0
+PKB street BANK BANK 1 0 0
+MED street BANK BANK 1 0 0
+BDG street BANK BANK 1 0 0
+DEN street b OWNED 1 0 0
+MTR street BANK BANK 1 0 0
+GUB railroad BANK BANK 1 0 0
+JKT street BANK BANK 1 0 0
+IKN street BANK BANK 1 0 0
+0
+33
+[Turn 3] SYSTEM | LOAD | Game berhasil dimuat!
+[Turn 3] COM | ARRESTED | Kena razia! Masuk penjara!
+[Turn 4] a | SYSTEM | Mulai giliran.
+[Turn 4] a | INFO | Mendarat di PALEMBANG
+[Turn 4] a | BUY | Membeli PALEMBANG
+[Turn 4] b | SYSTEM | Mulai giliran.
+[Turn 4] b | DRAW | Mengambil kartu...
+[Turn 4] b | KEEP | Simpan: Pindah ke mana saja
+[Turn 4] COM | SYSTEM | Mulai giliran.
+[Turn 4] COM | START_TURN | Giliran COM (Saldo: M415)
+[Turn 4] COM | DICE | COM melempar dadu: 7
+[Turn 4] COM | DRAW | Mengambil kartu...
+[Turn 4] COM | KEEP | Simpan: Hancurkan Properti Lawan
+[Turn 5] a | SYSTEM | Mulai giliran.
+[Turn 5] a | INFO | Mendarat di DENPASAR
+[Turn 5] COM | AUCTION | COM berani bayar M40
+[Turn 5] COM | AUCTION | COM berani bayar M70
+[Turn 5] COM | AUCTION | COM berani bayar M100
+[Turn 5] COM | AUCTION | COM berani bayar M210
+[Turn 5] COM | AUCTION | COM berani bayar M320
+[Turn 5] COM | AUCTION | COM otomatis nyerah (Miskin).
+[Turn 5] a | AUCTION | a otomatis nyerah (Miskin).
+[Turn 5] SYSTEM | LELANG | b memenangkan DENPASAR seharga M520
+[Turn 5] b | SYSTEM | Mulai giliran.
+[Turn 5] b | INFO | Mendarat di YOGYAKARTA
+[Turn 5] b | RENT | Bayar sewa M100 ke a
+[Turn 5] COM | SYSTEM | Mulai giliran.
+[Turn 5] COM | START_TURN | Giliran COM (Saldo: M415)
+[Turn 5] COM | DICE | COM melempar dadu: 10
+[Turn 5] COM | INFO | Mendarat di Utilitas PAM
+[Turn 5] BANK | COLLECT | Menerima dana sebesar M150
+[Turn 5] COM | BUY | COM membeli PAM
+[Turn 6] a | SYSTEM | Mulai giliran.

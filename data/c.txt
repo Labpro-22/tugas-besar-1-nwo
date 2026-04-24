@@ -1,0 +1,73 @@
+3 15
+3
+a 745 MKS TURN_ENDED
+0
+b 900 CHANCE TURN_ENDED
+2
+MoveCard 4
+ShieldCard
+COM 415 BLP WAITING_ROLL
+0
+a b COM
+COM
+28
+GRT street BANK BANK 1 0 0
+TSK street BANK BANK 1 0 0
+GBR railroad a OWNED 1 0 0
+BGR street BANK BANK 1 0 0
+DPK street BANK BANK 1 0 0
+BKS street BANK BANK 1 0 0
+MGL street BANK BANK 1 0 0
+PLN utility BANK BANK 1 0 0
+SOL street COM OWNED 1 0 0
+YOG street a OWNED 1 0 0
+STB railroad BANK BANK 1 0 0
+MAL street BANK BANK 1 0 0
+SMG street BANK BANK 1 0 0
+SBY street COM OWNED 1 0 0
+MKS street a OWNED 1 0 0
+BLP street COM OWNED 1 0 0
+MND street BANK BANK 1 0 0
+TUG railroad BANK BANK 1 0 0
+PLB street BANK BANK 1 0 0
+PAM utility BANK BANK 1 0 0
+PKB street BANK BANK 1 0 0
+MED street BANK BANK 1 0 0
+BDG street BANK BANK 1 0 0
+DEN street BANK BANK 1 0 0
+MTR street BANK BANK 1 0 0
+GUB railroad BANK BANK 1 0 0
+JKT street BANK BANK 1 0 0
+IKN street BANK BANK 1 0 0
+0
+30
+[Turn 1] b | SYSTEM | Mulai giliran.
+[Turn 1] b | DRAW | Mengambil kartu dari CHANCE
+[Turn 1] b | KEEP | Mendapat: Maju 4 Petak
+[Turn 1] COM | SYSTEM | Mulai giliran.
+[Turn 1] COM | START_TURN | Giliran COM (Saldo: M1000)
+[Turn 1] COM | DICE | COM melempar dadu: 5
+[Turn 1] COM | START_TURN | Giliran COM (Saldo: M975)
+[Turn 1] COM | DICE | COM melempar dadu: 8
+[Turn 1] BANK | COLLECT | Menerima dana sebesar M140
+[Turn 1] COM | BUY | COM membeli SOLO
+[Turn 2] a | SYSTEM | Mulai giliran.
+[Turn 2] a | BUY | Membeli YOGYAKARTA
+[Turn 2] b | SYSTEM | Mulai giliran.
+[Turn 2] b | RENT | Bayar M100
+[Turn 2] COM | SYSTEM | Mulai giliran.
+[Turn 2] COM | START_TURN | Giliran COM (Saldo: M835)
+[Turn 2] COM | DICE | COM melempar dadu: 6
+[Turn 2] BANK | COLLECT | Menerima dana sebesar M200
+[Turn 2] COM | BUY | COM membeli SURABAYA
+[Turn 3] a | SYSTEM | Mulai giliran.
+[Turn 3] a | BUY | Membeli MAKASSAR
+[Turn 3] b | SYSTEM | Mulai giliran.
+[Turn 3] b | DRAW | Mengambil kartu dari CHANCE
+[Turn 3] b | KEEP | Mendapat: Kebal Tagihan
+[Turn 3] COM | SYSTEM | Mulai giliran.
+[Turn 3] COM | START_TURN | Giliran COM (Saldo: M635)
+[Turn 3] COM | DICE | COM melempar dadu: 4
+[Turn 3] BANK | COLLECT | Menerima dana sebesar M220
+[Turn 3] COM | BUY | COM membeli BALIKPAPAN
+[Turn 3] COM | DOUBLE | Dadu Kembar! Jalan Lagi.
