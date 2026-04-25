@@ -227,6 +227,7 @@ void GameGUI::render() {
     // ==========================================
     drawPlayerHUD();
     drawLogBox(); 
+    drawCenterLog(); 
 
     // FAKTA: Balikin teks panduan menu yang kemaren kehapus
     DrawText("[K] KARTU SKILL  |  [I] DAFTAR ASET", 910, 580, 16, DARKBLUE);
@@ -478,6 +479,82 @@ void GameGUI::drawLogBox() {
         
         DrawText(logText.c_str(), logX + 10, logY + 35 + (i - start) * 18, 12, LIGHTGRAY);
     }
+}
+
+void GameGUI::drawCenterLog() {
+    const auto& logs = gm.getLogger().getLogs();
+    if (logs.empty()) return;
+
+    string lastLog = logs.back();
+    
+    Color bgColor = Fade(BLACK, 0.85f);
+    Color textColor = RAYWHITE;
+    Color borderColor = LIGHTGRAY;
+    
+    if (lastLog.find("| BUY |") != string::npos) {
+        borderColor = GREEN;
+        textColor = GREEN;
+    } else if (lastLog.find("| RENT |") != string::npos) {
+        borderColor = RED;
+        textColor = RED;
+    } else if (lastLog.find("| FESTIVAL |") != string::npos) {
+        borderColor = MAGENTA;
+        textColor = MAGENTA;
+    } else if (lastLog.find("| TAX |") != string::npos) {
+        borderColor = ORANGE;
+        textColor = ORANGE;
+    } else if (lastLog.find("| AUCTION") != string::npos) {
+        borderColor = GOLD;
+        textColor = GOLD;
+    } else if (lastLog.find("| FREE |") != string::npos || lastLog.find("| GO |") != string::npos || lastLog.find("| CASH |") != string::npos) {
+        borderColor = SKYBLUE;
+        textColor = SKYBLUE;
+    } else if (lastLog.find("| BANKRUPT |") != string::npos) {
+        borderColor = MAROON;
+        textColor = MAROON;
+        bgColor = Fade(RED, 0.3f);
+    } else if (lastLog.find("| MORTGAGE |") != string::npos) {
+        borderColor = YELLOW;
+        textColor = YELLOW;
+    } else if (lastLog.find("| UPGRADE |") != string::npos) {
+        borderColor = LIME;
+        textColor = LIME;
+    } else if (lastLog.find("| SKILL |") != string::npos || lastLog.find("| TELEPORT |") != string::npos || lastLog.find("| LASSO |") != string::npos) {
+        borderColor = PURPLE;
+        textColor = PURPLE;
+    } else if (lastLog.find("| ERROR |") != string::npos || lastLog.find("| WARNING |") != string::npos) {
+        borderColor = RED;
+        textColor = RED;
+    }
+
+    string displayLog = lastLog;
+    if (displayLog.length() > 65) displayLog = displayLog.substr(0, 62) + "...";
+
+    int fontSize = 20;
+    int textWidth = MeasureText(displayLog.c_str(), fontSize);
+    
+    int padding = 20;
+    int boxW = textWidth + padding * 2;
+    int boxH = fontSize + padding * 2;
+    
+    // Play area is 900x1000, board center is 450, 500
+    int centerX = 450;
+    int centerY = 500;
+    
+    int boxX = centerX - boxW / 2;
+    int boxY = centerY - boxH / 2;
+
+    // Draw slightly offset shadow
+    DrawRectangle(boxX + 5, boxY + 5, boxW, boxH, Fade(BLACK, 0.5f));
+    // Main box
+    DrawRectangle(boxX, boxY, boxW, boxH, bgColor);
+    DrawRectangleLinesEx({ (float)boxX, (float)boxY, (float)boxW, (float)boxH }, 3, borderColor);
+    
+    // Draw header
+    DrawText("LATEST EVENT", boxX + 10, boxY - 20, 16, borderColor);
+    
+    // Draw text
+    DrawText(displayLog.c_str(), boxX + padding, boxY + padding, fontSize, textColor);
 }
 
 // enum GameScreen { MAIN_MENU, SETUP_COUNT, SETUP_NAMES, SETUP_COM, GAMEPLAY };

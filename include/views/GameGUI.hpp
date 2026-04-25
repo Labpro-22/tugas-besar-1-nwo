@@ -31,6 +31,7 @@ private:
     void drawPlayers();
     // void drawUI(); 
     void drawLogBox();
+    void drawCenterLog();
     void drawPlayerHUD();
     void drawAssetList();
     void drawSkillMenu();
