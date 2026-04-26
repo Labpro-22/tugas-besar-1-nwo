@@ -80,6 +80,7 @@ void Board::initDynamicBoard(ConfigReader& config) {
             if (type == "STREET") {
                 string color = propData["COLOR"];
                 int hPrice = stoi(propData["HOUSE_PRICE"]); 
+                int htPrice = stoi(propData["HOTEL_PRICE"]);
                 vector<int> rents;
                 
                 rents.push_back(stoi(propData["RENT_0"])); 
@@ -89,8 +90,8 @@ void Board::initDynamicBoard(ConfigReader& config) {
                 rents.push_back(stoi(propData["RENT_4"]));
                 rents.push_back(stoi(propData["RENT_5"])); 
 
-                tiles.push_back(new StreetTile(i-1, code, name, price, mortgage, color, hPrice, rents));
-            } 
+                tiles.push_back(new StreetTile(i-1, code, name, price, mortgage, color, hPrice, htPrice, rents));
+            }
             else if (type == "RAILROAD") {
                 map<int, int> rrRents;
                 rrRents[1] = config.getRailroadRent(1);

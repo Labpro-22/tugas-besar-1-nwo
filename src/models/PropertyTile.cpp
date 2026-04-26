@@ -28,17 +28,14 @@ std::string PropertyTile::getPropertyStatus() const {
 }
 
 void PropertyTile::mortgageProperty() {
-    // 1. Cek apakah properti udah digadai duluan
     if (propertyStatus == "MORTGAGED") {
         throw IllegalMortgageException(this->name, "Properti sudah dalam status digadaikan!");
     }
 
-    // 2. FAKTA: Cek apakah masih ada rumah/hotel di tanah ini!
     if (this->getBuildingCount() > 0) {
         throw IllegalMortgageException(this->name, "Masih ada bangunan di atasnya. Jual bangunan dulu!");
     }
 
-    // Kalau lolos semua syarat, baru sah digadai
     propertyStatus = "MORTGAGED";
 }
 void PropertyTile::redeemProperty() { 

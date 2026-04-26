@@ -7,6 +7,7 @@
 #include "core/StatePromptBuy.hpp"
 #include "core/StateLiquidation.hpp"
 #include "core/StatePromptUpgrade.hpp"
+#include "core/StateRedeem.hpp"
 #include "core/StateTurnEnded.hpp"
 #include "core/StateTeleportSelect.hpp"
 #include "views/GameGUI.hpp"
@@ -51,6 +52,8 @@ void StateWaitingRoll::transitionAfterMove(GameManager& gm, Player& p) {
         gm.changeState(std::make_unique<StateLassoSelect>());
     } else if (s == "DEMOLISH_SELECT") {
         gm.changeState(std::make_unique<StateDemolishSelect>());
+    } else if (s == "REDEEM_SELECT") {
+        gm.changeState(std::make_unique<StateRedeem>());
     }
     else if (s == "PROMPT_UPGRADE") gm.changeState(std::make_unique<StatePromptUpgrade>()); // FAKTA: Tambah ini!
 
@@ -154,6 +157,35 @@ void StateWaitingRoll::handleInput(GameManager& gm, GameGUI& gui) {
                 }
             } else if (cmd == "CETAK_PROPERTI") {
                 gui.toggleAssetList(); 
+            } else if (cmd.find("GADAI ") == 0) {
+                std::string code = cmd.substr(6);
+                int idx = gm.getBoard().getTileIndexByCode(code);
+                if (idx != -1) {
+                    PropertyTile* prop = dynamic_cast<PropertyTile*>(&gm.getBoard().getTile(idx));
+                    if (prop && prop->getOwner() == p.getUsername()) {
+                        if (prop->getPropertyStatus() != "MORTGAGED") {
+                            try {
+                                prop->mortgageProperty();
+                                p += prop->getMortgageValue();
+                                gm.getBank().dispense(prop->getMortgageValue(), gm);
+                                gm.getLogger().logAction(gm.getCurrentTurnCount(), p.getUsername(), "MORTGAGE", 
+                                    "Gadai " + prop->getName() + " (+M" + std::to_string(prop->getMortgageValue()) + ")");
+                            } catch (const std::exception& e) {
+                                gm.getLogger().logAction(gm.getCurrentTurnCount(), p.getUsername(), "ERROR", 
+                                    "Gagal gadai " + prop->getName() + ": " + e.what());
+                            }
+                        } else {
+                            gm.getLogger().logAction(gm.getCurrentTurnCount(), p.getUsername(), "ERROR", 
+                                prop->getName() + " sudah dalam status gadai!");
+                        }
+                    } else {
+                        gm.getLogger().logAction(gm.getCurrentTurnCount(), p.getUsername(), "ERROR", 
+                            "Properti " + code + " bukan milikmu!");
+                    }
+                } else {
+                    gm.getLogger().logAction(gm.getCurrentTurnCount(), p.getUsername(), "ERROR", 
+                        "Kode properti " + code + " tidak ditemukan!");
+                }
             }
             gui.toggleCommandMode();
             cmdBuffer[0] = '\0';

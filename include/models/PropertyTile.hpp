@@ -33,6 +33,7 @@ public:
     virtual void applyFestival(int /*multiplier*/, int /*turns*/) {}
     virtual bool canBuild() const { return false; } 
     virtual int getHousePrice() const { return 0; }
+    virtual int getHotelPrice() const { return 0; }
     virtual int getHouseCount() const { return 0; }
     virtual void build() {}
     

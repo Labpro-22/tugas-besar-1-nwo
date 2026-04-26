@@ -8,13 +8,14 @@ private:
     std::string colorGroup;
     std::vector<int> rentTable; 
     int housePrice;
+    int hotelPrice;
     int buildingCount; 
     int festivalMultiplier;
     int festivalDuration;
     
 public:
 
-    StreetTile(int idx, std::string c, std::string n, int price, int mortgage, std::string color, int hPrice, std::vector<int> rents);
+    StreetTile(int idx, std::string c, std::string n, int price, int mortgage, std::string color, int hPrice, int htPrice, std::vector<int> rents);
     void buildHouse();
     void demolishBuilding();
     void onLanded(Player& player, GameManager& gm) override;
@@ -28,7 +29,12 @@ public:
     }
     Color getHeaderColor() const override;
     int getBuildingCount() const override;
-    int getUpgradePrice() const override { return housePrice; }
+    int getHouseCount() const override { return buildingCount; }
+    int getHousePrice() const override { return housePrice; }
+    int getHotelPrice() const override { return hotelPrice; }
+    int getUpgradePrice() const override { 
+        return (buildingCount == 4) ? hotelPrice : housePrice; 
+    }
     bool isStreet() const override { return true; }
     bool canBuild() const override { return buildingCount < 5; } 
     void build() override { buildHouse(); }
@@ -41,4 +47,3 @@ public:
     }
     bool canUpgrade(const GameManager& gm) const override;
 };
-

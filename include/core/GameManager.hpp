@@ -99,5 +99,14 @@ public:
     // Versi 2: FAKTA mutlak harus ada kata 'const' di awal dan di akhir!
     const std::vector<Player*>& getAllPlayers() const { return players; }
 
-    
+    // --- Operator Overloads ---
+    Player* operator[](int index) { 
+        return (index >= 0 && index < (int)players.size()) ? players[index] : nullptr; 
+    }
+    const Player* operator[](int index) const { 
+        return (index >= 0 && index < (int)players.size()) ? players[index] : nullptr; 
+    }
+    Tile& operator()(int index) { return board.getTile(index); }
+    const Tile& operator()(int index) const { return board.getTile(index); }
+    friend std::ostream& operator<<(std::ostream& os, const GameManager& gm);
 };

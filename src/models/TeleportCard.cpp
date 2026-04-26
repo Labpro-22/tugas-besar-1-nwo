@@ -8,6 +8,6 @@ TeleportCard::TeleportCard() : SkillCard("Pindah ke mana saja", 0, 0) {}
 
 void TeleportCard::activate(Player& player, GameManager& gm) {
     gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "SKILL", "Gunakan Teleport! Pilih tujuan.");
-    player.setStatus("TELEPORT_SELECT"); // Memicu menu ID petak di UI
+    player.setStatus("TELEPORT_SELECT"); 
     gm.changeState(std::make_unique<StateTeleportSelect>());
 }

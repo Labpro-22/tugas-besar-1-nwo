@@ -23,14 +23,15 @@ void ConfigReader::loadAllConfigs() {
 
         // Percabangan berdasarkan TYPE karena jumlah kolom STREET beda dengan yang lain
         if (type == "STREET") {
-            string color, price, mortgage, hPrice;
+            string color, price, mortgage, hPrice, htPrice;
             // Baca sisa kolom untuk Street
-            ss >> color >> price >> mortgage >> hPrice;
+            ss >> color >> price >> mortgage >> hPrice >> htPrice;
             
             propertyConfig[code]["COLOR"] = color;
             propertyConfig[code]["PRICE"] = price;
             propertyConfig[code]["MORTGAGE"] = mortgage;
             propertyConfig[code]["HOUSE_PRICE"] = hPrice;
+            propertyConfig[code]["HOTEL_PRICE"] = htPrice;
             for (int j = 0; j <= 5; j++) {
                 string tempValue;
                 if (ss >> tempValue) {

@@ -6,10 +6,11 @@
 #include "core/StatePromptUpgrade.hpp"
 #include "core/StateTurnEnded.hpp"
 using namespace std;
-StreetTile::StreetTile(int idx, string c, string n, int price, int mortgage, string color, int hPrice, vector<int> rents)
+StreetTile::StreetTile(int idx, string c, string n, int price, int mortgage, string color, int hPrice, int htPrice, vector<int> rents)
     : PropertyTile(idx, c, n, "STREET", price, mortgage),
      colorGroup(color),
      housePrice(hPrice),
+     hotelPrice(htPrice),
      rentTable(rents), 
      buildingCount(0), 
      festivalMultiplier(1), 

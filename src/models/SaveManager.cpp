@@ -35,7 +35,6 @@ string SaveManager::openLoadFileDialog() {
 
 string SaveManager::openSaveFileDialog() {
     char filename[1024] = {0};
-    // FAKTA: Hapus --confirm-overwrite karena sudah deprecated di Ubuntu baru
     FILE *f = popen("zenity --file-selection --save --title=\"Simpan Game Nimonspoli\" --file-filter=\"*.txt\"", "r");
     
     if (!f) return ""; 

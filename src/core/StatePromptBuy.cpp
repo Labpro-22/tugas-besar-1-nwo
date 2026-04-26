@@ -8,11 +8,12 @@
 
 void StatePromptBuy::handleInput(GameManager& gm, GameGUI&) {
     Player& p = gm.getCurrentPlayer();
-    PropertyTile* tile = dynamic_cast<PropertyTile*>(&gm.getBoard().getTile(p.getPosition()));
+    PropertyTile* tile = gm.getBoard().getTile(p.getPosition()).getAsProperty();
     if (IsKeyPressed(KEY_B)) {
         
         if (tile && p.getBalance() >= tile->getBuyPrice()) {
             p -= tile->getBuyPrice(); 
+            gm.getBank().collect(tile->getBuyPrice(), gm);
             p.addProperty(tile); 
             tile->setOwner(p.getUsername());
             gm.getLogger().logAction(gm.getCurrentTurnCount(), p.getUsername(), "BUY", "Membeli " + tile->getName());
@@ -21,15 +22,10 @@ void StatePromptBuy::handleInput(GameManager& gm, GameGUI&) {
             gm.changeState(std::make_unique<StateTurnEnded>());
         }
     } else if (IsKeyPressed(KEY_L)) {
-        // gm.getLogger().logAction(gm.getCurrentTurnCount(), p.getUsername(), "PASS", "Melewati pembelian.");
-        // p.setStatus("TURN_ENDED");
-        // gm.changeState(std::make_unique<StateTurnEnded>());
-        p.setStatus("AUCTION"); // Bebas ini buat log aja
+        p.setStatus("AUCTION");
             
-        // Masukin SEMUA player ke dalem array lelang
         std::vector<Player*> allPlayers;
         for (Player* playerPtr : gm.getAllPlayers()) {
-            // Pastikan player belum bangkrut kalau lu ada sistem bangkrut
             allPlayers.push_back(playerPtr);
         }
         

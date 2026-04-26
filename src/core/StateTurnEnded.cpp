@@ -2,6 +2,7 @@
 #include "views/GameGUI.hpp"
 #include "models/Player.hpp"
 #include "core/StateWaitingRoll.hpp"
+#include "core/StateRedeem.hpp"
 #include "core/GameManager.hpp"
 
 void StateTurnEnded::handleInput(GameManager& gm, GameGUI& gui) {
@@ -22,6 +23,11 @@ void StateTurnEnded::handleInput(GameManager& gm, GameGUI& gui) {
             gm.runGameLoop(); 
         }
     }
+    else if (IsKeyPressed(KEY_R)) {
+        Player& p = gm.getCurrentPlayer();
+        p.setStatus("REDEEM_SELECT");
+        gm.changeState(std::make_unique<StateRedeem>());
+    }
 }
 
 
@@ -29,6 +35,7 @@ void StateTurnEnded::updateUI(GameManager& gm, GameGUI& gui) {
     if (gui.isAnyMenuOpen()) return;
     DrawText("GILIRAN SELESAI", 910, 420, 20, GRAY);
     DrawText("[ENTER] LANJUT", 910, 450, 24, BLACK);
+    DrawText("[R] TEBUS GADAI", 910, 480, 18, GOLD);
 
     const auto& logs = gm.getLogger().getLogs(); 
     

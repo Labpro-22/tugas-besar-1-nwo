@@ -10,7 +10,6 @@ void RailroadTile::onLanded(Player& player, GameManager& gm) {
     gm.getLogger().logAction(gm.getCurrentTurnCount(), player.getUsername(), "INFO", "Mendarat di Stasiun " + name);
 
     if (ownerName == "BANK") {
-        // FAKTA: Lempar ke UI buat nawarin Beli!
         player.setStatus("PROMPT_BUY_" + this->code); 
     } 
     else if (ownerName == player.getUsername() || propertyStatus == "MORTGAGED") {

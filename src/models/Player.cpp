@@ -42,6 +42,41 @@ bool Player::operator>(const Player& other) const {
 bool Player::operator<(const Player& other) const {
     return this->getTotalWealth() < other.getTotalWealth();
 }
+bool Player::operator==(const Player& other) const {
+    return this->username == other.username;
+}
+bool Player::operator!=(const Player& other) const {
+    return this->username != other.username;
+}
+bool Player::operator>=(const Player& other) const {
+    return this->getTotalWealth() >= other.getTotalWealth();
+}
+bool Player::operator<=(const Player& other) const {
+    return this->getTotalWealth() <= other.getTotalWealth();
+}
+std::ostream& operator<<(std::ostream& os, const Player& p) {
+    os << "Player[" << p.username << ", Balance: M" << p.balance 
+       << ", Position: " << p.position << ", Wealth: M" << p.getTotalWealth() << "]";
+    return os;
+}
+
+bool Player::operator!() const {
+    return status == "BANKRUPT";
+}
+
+Player::operator bool() const {
+    return status != "BANKRUPT";
+}
+
+Player& Player::operator++() {
+    ++position;
+    return *this;
+}
+
+Player& Player::operator--() {
+    --position;
+    return *this;
+}
 
 void Player::addSkillCard(SkillCard* card) {
     if (hand.size() >= 3) throw HandFullException();

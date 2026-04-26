@@ -92,32 +92,53 @@ void ComputerPlayer::takeTurn(GameManager& gm) {
                 setStatus("TURN_ENDED");
             }
         }
-        // else if (s == "FESTIVAL_SELECT") {
-        //     if (!ownedProperties.empty()) {
-        //         StreetTile* st = dynamic_cast<StreetTile*>(ownedProperties[0]);
-        //         if (st) st->applyFestival(2, 1);
-        //     }
-        //     setStatus("TURN_ENDED");
-        // }
         else if (s == "DROP_CARD") {
             dropSkillCard(0);
             gm.getLogger().logAction(gm.getCurrentTurnCount(), username, "DISCARD", "COM membuang 1 kartu.");
             setStatus("TURN_ENDED");
         }
-        else if (s.find("PROMPT_UPGRADE_") == 0) {
+        else if (s == "PROMPT_UPGRADE") {
             PropertyTile* prop = gm.getBoard().getTile(position).getAsProperty();
             
-            if (prop && prop->canBuild() && prop->getHouseCount() < 4) {
-                if (balance >= (prop->getHousePrice() + 200)) {
-                    *this -= prop->getHousePrice();
-                    gm.getBank().collect(prop->getHousePrice(), gm);
+            if (prop && prop->canBuild()) {
+                int price = (prop->getHouseCount() == 4) ? prop->getHotelPrice() : prop->getHousePrice();
+                if (balance >= (price + 200)) {
+                    *this -= price;
+                    gm.getBank().collect(price, gm);
                     prop->build();
                     gm.getLogger().logAction(gm.getCurrentTurnCount(), username, "UPGRADE", "COM membangun properti di " + prop->getName());
                 }
             }
             setStatus("TURN_ENDED");
         }
-        else if (s == "FESTIVAL") { // Atau apapun nama status lu pas AI nginjek petak Festival
+        else if (s == "FESTIVAL_SELECT") {
+            const auto& props = getOwnedProperties();
+            
+            if (!props.empty()) {
+                // Cari properti StreetTile dengan jumlah rumah terbanyak
+                PropertyTile* bestProp = nullptr;
+                int maxHouses = -1;
+                
+                for (PropertyTile* prop : props) {
+                    if (prop->isStreet() && prop->getHouseCount() > maxHouses) {
+                        maxHouses = prop->getHouseCount();
+                        bestProp = prop;
+                    }
+                }
+                
+                if (bestProp) {
+                    bestProp->applyFestival(2, 1);
+                    gm.getLogger().logAction(gm.getCurrentTurnCount(), username, "FESTIVAL", "COM mengadakan pesta di " + bestProp->getName());
+                } else {
+                    gm.getLogger().logAction(gm.getCurrentTurnCount(), username, "FESTIVAL", "COM gak punya kota buat di-festival-in.");
+                }
+            } else {
+                gm.getLogger().logAction(gm.getCurrentTurnCount(), username, "FESTIVAL", "COM gak punya aset buat di-festival-in.");
+            }
+            
+            setStatus("TURN_ENDED");
+        }
+        else if (s == "FESTIVAL") { // Fallback untuk status lama
             const auto& props = getOwnedProperties();
             
             if (!props.empty()) {

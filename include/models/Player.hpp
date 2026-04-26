@@ -49,6 +49,17 @@ public:
     Player& operator-=(int amount);
     bool operator>(const Player& other) const;
     bool operator<(const Player& other) const;
+    bool operator==(const Player& other) const;
+    bool operator!=(const Player& other) const;
+    bool operator>=(const Player& other) const;
+    bool operator<=(const Player& other) const;
+    friend std::ostream& operator<<(std::ostream& os, const Player& p);
+
+    // --- Operator Overloads Baru ---
+    bool operator!() const;                    // !player -> true if bankrupt
+    explicit operator bool() const;            // if (player) -> true if active
+    Player& operator++();                      // ++player -> move forward 1 tile
+    Player& operator--();                      // --player -> move backward 1 tile
 
     void addSkillCard(SkillCard* card);
     void dropSkillCard(int index);

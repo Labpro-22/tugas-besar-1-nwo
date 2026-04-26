@@ -202,3 +202,18 @@ CardDeck<ChanceCard>& GameManager::getChanceDeck() { return chanceDeck; }
 CardDeck<CommunityChestCard>& GameManager::getCommunityDeck() { return communityDeck; }
 CardDeck<SkillCard>& GameManager::getSkillDeck() { return skillDeck; }
 
+std::ostream& operator<<(std::ostream& os, const GameManager& gm) {
+    os << "=== GameManager Status ===\n";
+    os << "Turn: " << gm.currentTurnCount << "/" << gm.maxTurn << " | Current Player Index: " << gm.currentTurnIndex << "\n";
+    os << "Players (" << gm.players.size() << "):\n";
+    for (size_t i = 0; i < gm.players.size(); i++) {
+        os << "  [" << i << "] " << *gm.players[i];
+        if (gm.players[i]->isBot()) os << " [BOT]";
+        if ((int)i == gm.currentTurnIndex) os << " <-- CURRENT";
+        os << "\n";
+    }
+    os << "Board Tiles: " << gm.board.getTileCount() << "\n";
+    os << "==========================";
+    return os;
+}
+
