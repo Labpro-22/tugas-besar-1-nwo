@@ -44,6 +44,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 run: all
 	./$(TARGET)
 
+# Build and run tests
+test: all
+	@mkdir -p bin
+	$(CXX) $(CXXFLAGS) tests/ComputerPlayerTest.cpp $(filter-out $(OBJ_DIR)/main.o $(OBJ_DIR)/views/GameGUI.o, $(OBJS)) -o bin/test_computer_player $(LDLIBS)
+	./bin/test_computer_player
+
 # Clean up generated files
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)

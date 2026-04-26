@@ -17,6 +17,7 @@ void ConfigReader::loadAllConfigs() {
         // 4 Kolom pertama selalu sama untuk semua jenis properti
         ss >> id >> code >> name >> type;
         
+        boardLayout[stoi(id)] = code;
         propertyConfig[code]["TYPE"] = type;
         propertyConfig[code]["NAME"] = name;
 
@@ -92,6 +93,34 @@ void ConfigReader::loadAllConfigs() {
         miscFile.close();
     } else {
         cout << "[WARNING] File misc.txt tidak ditemukan!\n";
+    }
+    // 5. Parsing aksi.txt -> Masuk ke propertyConfig dan boardLayout
+    ifstream aksiFile(configDirectory + "/aksi.txt");
+    if (aksiFile.is_open()) {
+        string aksiLine;
+        while (getline(aksiFile, aksiLine)) {
+            if (aksiLine.empty()) continue;
+            stringstream ss(aksiLine);
+            int id;
+            string code, name, type, color;
+            ss >> id >> code >> name >> type >> color;
+            boardLayout[id] = code;
+            propertyConfig[code]["TYPE"] = type;
+            propertyConfig[code]["NAME"] = name;
+            propertyConfig[code]["COLOR"] = color;
+        }
+        aksiFile.close();
+    }
+    // 6. Parsing tax.txt
+    ifstream taxFile(configDirectory + "/tax.txt");
+    if (taxFile.is_open()) {
+        int flat, pct, luxury;
+        if (taxFile >> flat >> pct >> luxury) {
+            taxConfig["INCOME_FLAT"] = flat;
+            taxConfig["INCOME_PCT"] = pct;
+            taxConfig["LUXURY_FLAT"] = luxury;
+        }
+        taxFile.close();
     }
 }
 

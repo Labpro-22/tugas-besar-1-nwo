@@ -89,48 +89,57 @@ int main() {
                 else if (IsKeyPressed(KEY_N)) { gm.initializeGame(numHumanPlayers, playerNames, false); currentScreen = GAMEPLAY; }
                 break;
             case GAMEPLAY: {
-                Player& p = gm.getCurrentPlayer();
+                try {
+                    Player& p = gm.getCurrentPlayer();
 
-                // ==============================================================
-                // 1. KONTROL MENU INVENTORY (Overlay Bebas State)
-                // ==============================================================
-                if (IsKeyPressed(KEY_K)) gui.toggleSkillMenu(); 
-                if (IsKeyPressed(KEY_I)) gui.toggleAssetList(); 
+                    // ==============================================================
+                    // 1. KONTROL MENU INVENTORY (Overlay Bebas State)
+                    // ==============================================================
+                    if (IsKeyPressed(KEY_K)) gui.toggleSkillMenu(); 
+                    if (IsKeyPressed(KEY_I)) gui.toggleAssetList(); 
 
-                // --- [LOGIKA PAKAI KARTU SKILL] ---
-                if (gui.isSkillMenuOpen()) {
-                    int selected = -1;
-                    if (IsKeyPressed(KEY_ONE))   selected = 0;
-                    if (IsKeyPressed(KEY_TWO))   selected = 1;
-                    if (IsKeyPressed(KEY_THREE)) selected = 2;
-                    if (IsKeyPressed(KEY_FOUR))  selected = 3;
+                    // --- [LOGIKA PAKAI KARTU SKILL] ---
+                    if (gui.isSkillMenuOpen()) {
+                        int selected = -1;
+                        if (IsKeyPressed(KEY_ONE))   selected = 0;
+                        if (IsKeyPressed(KEY_TWO))   selected = 1;
+                        if (IsKeyPressed(KEY_THREE)) selected = 2;
+                        if (IsKeyPressed(KEY_FOUR))  selected = 3;
 
-                    if (selected != -1 && selected < (int)p.getHand().size()) {
-                        p.getHand()[selected]->execute(p, gm); 
-                        p.dropSkillCard(selected); 
-                        gui.closeSkillMenu(); 
+                        if (selected != -1 && selected < (int)p.getHand().size()) {
+                            p.getHand()[selected]->execute(p, gm); 
+                            p.dropSkillCard(selected); 
+                            gui.closeSkillMenu(); 
+                        }
                     }
-                }
 
-                // --- [LOGIKA PILIH ASET PROPERTI] ---
-                if (gui.isAssetListOpen() && !gui.isDeedOpen()) {
-                    int selectedIdx = -1;
-                    for (int i = 0; i < 9; i++) {
-                        if (IsKeyPressed(KEY_ONE + i)) selectedIdx = i;
+                    // --- [LOGIKA PILIH ASET PROPERTI] ---
+                    if (gui.isAssetListOpen() && !gui.isDeedOpen()) {
+                        int selectedIdx = -1;
+                        for (int i = 0; i < 9; i++) {
+                            if (IsKeyPressed(KEY_ONE + i)) selectedIdx = i;
+                        }
+                        if (selectedIdx != -1 && selectedIdx < (int)p.getOwnedProperties().size()) {
+                            gui.openDeed(p.getOwnedProperties()[selectedIdx]); 
+                        }
                     }
-                    if (selectedIdx != -1 && selectedIdx < (int)p.getOwnedProperties().size()) {
-                        gui.openDeed(p.getOwnedProperties()[selectedIdx]); 
-                    }
-                }
 
-                // ==============================================================
-                // 2. THE REAL OOP ENGINE (Sapu Bersih Semua if-else Lama!)
-                // ==============================================================
-                // FAKTA: Semua logika SPACE, B, L, 1, 2, ENTER sekarang MURNI
-                // dikendalikan oleh objek State yang lagi aktif!
-                
-                if (!gui.isAnyMenuOpen()) {
-                    gm.updateStateInput(gui); 
+                    // ==============================================================
+                    // 2. THE REAL OOP ENGINE (Sapu Bersih Semua if-else Lama!)
+                    // ==============================================================
+                    // FAKTA: Semua logika SPACE, B, L, 1, 2, ENTER sekarang MURNI
+                    // dikendalikan oleh objek State yang lagi aktif!
+                    
+                    if (!gui.isAnyMenuOpen()) {
+                        gm.updateStateInput(gui); 
+                    }
+                } catch (const InsufficientFundsException& e) {
+                    std::cout << "[FATAL] Unhandled InsufficientFundsException in GAMEPLAY loop! Req: " 
+                              << e.getRequired() << " Avl: " << e.getAvailable() << std::endl;
+                    throw; // rethrow to keep original behavior but now we know WHERE it happened
+                } catch (const std::exception& e) {
+                    std::cout << "[FATAL] Other Exception in GAMEPLAY loop: " << e.what() << std::endl;
+                    throw;
                 }
 
                 break;

@@ -1,6 +1,7 @@
 #include "models/CommunityChestCard.hpp"
 #include "models/Player.hpp"
 #include "core/GameManager.hpp"
+#include "utils/InsufficientFundsException.hpp"
 #include <iostream>
 using namespace std;
 CommunityChestCard::CommunityChestCard(std::string desc, std::string effect, int amt) : Card(desc), effectType(effect), amount(amt){}
@@ -10,7 +11,11 @@ void CommunityChestCard::execute(Player& player, GameManager& gm) {
         player += amount;
         gm.getBank().dispense(amount,gm);
     } else if (effectType == "PAY") {
-        player -= amount; 
-        gm.getBank().collect(amount,gm);
+        try {
+            player -= amount; 
+            gm.getBank().collect(amount,gm);
+        } catch (const InsufficientFundsException& e) {
+            player.setStatus("LIQUIDATING_" + std::to_string(e.getRequired() - e.getAvailable()));
+        }
     }
 }

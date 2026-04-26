@@ -4,6 +4,8 @@
 #include "models/Player.hpp"
 #include "models/PropertyTile.hpp"
 #include "views/GameGUI.hpp"
+#include "utils/InsufficientFundsException.hpp"
+#include "core/StateLiquidation.hpp"
 StateAuction::StateAuction(PropertyTile* prop, std::vector<Player*> allPlayers)
     : property(prop), participants(allPlayers), currentBid(10), highestBidder(nullptr), currentPlayerIndex(0) {
 }
@@ -18,11 +20,18 @@ void StateAuction::nextPlayer() {
 void StateAuction::endAuction(GameManager& gm) {
     if (participants.size() == 1) {
         Player* winner = participants[0];
-        *winner -= currentBid;
-        property->setOwner(winner->getUsername());
-        
-        gm.getLogger().logAction(gm.getCurrentTurnCount(), "SYSTEM", "LELANG", 
-            winner->getUsername() + " memenangkan " + property->getName() + " seharga M" + std::to_string(currentBid));
+        try {
+            *winner -= currentBid;
+            property->setOwner(winner->getUsername());
+            winner->addProperty(property);
+            
+            gm.getLogger().logAction(gm.getCurrentTurnCount(), "SYSTEM", "LELANG", 
+                winner->getUsername() + " memenangkan " + property->getName() + " seharga M" + std::to_string(currentBid));
+        } catch (const InsufficientFundsException& e) {
+            winner->setStatus("LIQUIDATING_" + std::to_string(e.getRequired() - e.getAvailable()));
+            gm.changeState(std::make_unique<StateLiquidation>());
+            return;
+        }
     } else {
         gm.getLogger().logAction(gm.getCurrentTurnCount(), "SYSTEM", "LELANG", "Semua nyerah, " + property->getName() + " batal terjual.");
     }
@@ -48,7 +57,7 @@ void StateAuction::handleInput(GameManager& gm, GameGUI& gui) {
         
         int maxWillingToPay = property->getBuyPrice() + (p->getBalance() * 0.3);
         
-        if (currentBid < maxWillingToPay) {
+        if (currentBid + 10 <= maxWillingToPay && p->getBalance() >= currentBid + 10) {
             currentBid += 10;
             highestBidder = p;
             gm.getLogger().logAction(gm.getCurrentTurnCount(), p->getUsername(), "AUCTION", "COM berani bayar M" + std::to_string(currentBid));
@@ -64,14 +73,22 @@ void StateAuction::handleInput(GameManager& gm, GameGUI& gui) {
     }
 
     if (IsKeyPressed(KEY_ONE)) {
-        currentBid += 10;
-        highestBidder = p;
-        nextPlayer();
+        if (p->getBalance() >= currentBid + 10) {
+            currentBid += 10;
+            highestBidder = p;
+            nextPlayer();
+        } else {
+            gm.getLogger().logAction(gm.getCurrentTurnCount(), p->getUsername(), "WARNING", "Dana tidak cukup untuk bid +10!");
+        }
     } 
     else if (IsKeyPressed(KEY_TWO)) {
-        currentBid += 50;
-        highestBidder = p;
-        nextPlayer();
+        if (p->getBalance() >= currentBid + 50) {
+            currentBid += 50;
+            highestBidder = p;
+            nextPlayer();
+        } else {
+            gm.getLogger().logAction(gm.getCurrentTurnCount(), p->getUsername(), "WARNING", "Dana tidak cukup untuk bid +50!");
+        }
     } 
     else if (IsKeyPressed(KEY_THREE)) { 
         gm.getLogger().logAction(gm.getCurrentTurnCount(), p->getUsername(), "AUCTION", p->getUsername() + " menyerah.");

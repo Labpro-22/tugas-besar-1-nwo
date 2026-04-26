@@ -12,10 +12,12 @@ private:
     std::map<std::string, int> specialConfig;
     int maxTurn;
     int initialBalance;
+    std::map<int, std::string> boardLayout;
 public:
     ConfigReader(std::string dir):configDirectory(dir){};
     void loadAllConfigs();
     std::map<std::string, std::string> getPropertyData(std::string code) const;
+    std::map<int, std::string> getBoardLayout() const { return boardLayout; }
     int getRailroadRent(int count) const;
     int getUtilityMultiplier(int count) const;
     int getTaxData(std::string type) const;

@@ -4,6 +4,7 @@
 #include "models/Player.hpp"
 #include "core/GameManager.hpp"
 #include "models/Tile.hpp"
+#include "utils/InsufficientFundsException.hpp"
 void StateLassoSelect::updateUI(GameManager& , GameGUI& gui) {
     if (gui.isAnyMenuOpen()) return;
     int baseY = 370;
@@ -18,7 +19,13 @@ void StateLassoSelect::handleInput(GameManager& gm, GameGUI&) {
     auto allPlayers = gm.getAllPlayers();
     if (victimIdx != -1 && victimIdx < (int)allPlayers.size() && allPlayers[victimIdx] != &p) {
         allPlayers[victimIdx]->setPosition(p.getPosition());
-        gm.getBoard().getTile(p.getPosition()).onLanded(*allPlayers[victimIdx], gm);
+        
+        try {
+            gm.getBoard().getTile(p.getPosition()).onLanded(*allPlayers[victimIdx], gm);
+        } catch (const InsufficientFundsException& e) {
+            allPlayers[victimIdx]->setStatus("LIQUIDATING_" + std::to_string(e.getRequired() - e.getAvailable()));
+        }
+        
         gm.getLogger().logAction(gm.getCurrentTurnCount(), p.getUsername(), "LASSO", "Menarik " + allPlayers[victimIdx]->getUsername());
         p.setStatus("TURN_ENDED");
         gm.changeState(std::make_unique<StateTurnEnded>());
